@@ -6,23 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="//lihengc.github.io">
-  <title>Base64编码简单认识 | Harthali</title>
+  <title>理解高内聚低耦合 | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="base64编码的编码和解码简单认识">
-<meta name="keywords" content="编码,PHP">
+  <meta name="description" content="什么是高内聚、低耦合？粗浅的理解高内聚低耦合">
+<meta name="keywords" content="PHP,架构,设计">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Base64编码简单认识">
-<meta property="og:url" content="//lihengc.github.io/2019/06/03/Base64编码认识/index.html">
+<meta property="og:title" content="理解高内聚低耦合">
+<meta property="og:url" content="//lihengc.github.io/2019/06/04/理解高内聚低耦合/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="base64编码的编码和解码简单认识">
+<meta property="og:description" content="什么是高内聚、低耦合？粗浅的理解高内聚低耦合">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190517212249969.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9oZWxsby5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20190517212307382.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9oZWxsby5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-06-03T06:20:15.567Z">
+<meta property="og:updated_time" content="2019-06-04T02:07:47.502Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Base64编码简单认识">
-<meta name="twitter:description" content="base64编码的编码和解码简单认识">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190517212249969.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9oZWxsby5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70">
+<meta name="twitter:title" content="理解高内聚低耦合">
+<meta name="twitter:description" content="什么是高内聚、低耦合？粗浅的理解高内聚低耦合">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -162,76 +159,74 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Base64编码认识" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-理解高内聚低耦合" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Base64编码简单认识
+      理解高内聚低耦合
     </h1>
   
 
         
-        <a href="/2019/06/03/Base64编码认识/" class="archive-article-date">
-  	<time datetime="2019-06-03T05:45:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-03</time>
+        <a href="/2019/06/04/理解高内聚低耦合/" class="archive-article-date">
+  	<time datetime="2019-06-04T01:56:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="Base64是一种用64个字符来表示任意二进制数据的方法。"><a href="#Base64是一种用64个字符来表示任意二进制数据的方法。" class="headerlink" title="Base64是一种用64个字符来表示任意二进制数据的方法。"></a>Base64是一种用64个字符来表示任意二进制数据的方法。</h3><ul>
-<li><p>用记事本打开exe、jpg、pdf这些文件时，我们都会看到一大堆乱码，因为二进制文件包含很多无法显示和打印的字符，所以，如果要让记事本这样的文本处理软件能处理二进制数据，就需要一个二进制到字符串的转换方法。</p>
-</li>
-<li><p>系统之间的报文交互都需要使用Base64对明文进行转码，然后再进行签名或加密，之后再进行（或再次Base64）传输。</p>
-</li>
-<li><p>在参数传递的过程当中，会出现中文乱码的情况，于此类似的还有很多，所以说网络上传输的字符并不全是可打印的字符，列如，图片，二进制文件等等。Base64的出现就是为了解决此问题，它是基于64个可打印的字符来表示二进制的数据的一种方法。</p>
-</li>
-<li>电子邮件刚问世的时候，只能传输英文，但后来随着用户的增加，中文、日文等文字的用户也有需求，但这些字符并不能被服务器或网关有效处理，因此Base64就登场了。随之，Base64在URL、Cookie、网页传输少量二进制文件中也有相应的使用。</li>
-</ul>
-<h4 id="Base64原理"><a href="#Base64原理" class="headerlink" title="Base64原理"></a>Base64原理</h4><blockquote>
-<p>首先准备一个数组</p>
+        <h4 id="1、介绍"><a href="#1、介绍" class="headerlink" title="1、介绍"></a>1、介绍</h4><p> 模块独立性指每个模块只完成系统要求的独立子功能，并且与其他模块的联系最少且接口简单，两个定性的度量标准――耦合性和内聚性。</p>
+<h4 id="2、耦合性"><a href="#2、耦合性" class="headerlink" title="2、耦合性"></a>2、耦合性</h4><ol>
+<li>定义<blockquote>
+<p>耦合性也称块间联系。指软件系统结构中各模块间相互联系紧密程度的一种度量。模块之间联系越紧密，其耦合性就越强，模块的独立性则越差。模块间耦合高低取决于模块间接口的复杂性、调用的方式及传递的信息。</p>
 </blockquote>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>, ... <span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, ... <span class="string">'0'</span>, <span class="string">'1'</span>, ... <span class="string">'+'</span>, <span class="string">'/'</span>]</span><br></pre></td></tr></table></figure>
-<p>上面就是Base64的索引表，字符选用了”A-Z、a-z、0-9、+、/“ 64个可打印字符，这是标准的Base64协议规定。在日常使用中我们还会看到“=”或“==”号出现在Base64的编码结果中，“=”在此是作为填充字符出现。</p>
-<h5 id="具体转换步骤"><a href="#具体转换步骤" class="headerlink" title="具体转换步骤"></a>具体转换步骤</h5><ul>
-<li>第一步，将待转换的字符串每三个字节分为一组，每个字节占8bit，那么共有24个二进制位。</li>
-<li><p>第二步，将上面的24个二进制位每6个一组，共分为4组</p>
 </li>
-<li><p>第三步，在每组前面添加两个0，每组由6个变为8个二进制位，总共32个二进制位，即四个字节。</p>
-</li>
-<li><p>第四步，根据Base64编码对照表（见下图）获得对应的值。</p>
-</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>　A　　<span class="number">17</span>　R　　　<span class="number">34</span>　i　　　<span class="number">51</span>　z</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>　B　　<span class="number">18</span>　S　　　<span class="number">35</span>　j　　　<span class="number">52</span>　<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>　C　　<span class="number">19</span>　T　　　<span class="number">36</span>　k　　　<span class="number">53</span>　<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>　D　　<span class="number">20</span>　U　　　<span class="number">37</span>　l　　　<span class="number">54</span>　<span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">4</span>　E　　<span class="number">21</span>　V　　　<span class="number">38</span>　m　　　<span class="number">55</span>　<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="number">5</span>　F　　<span class="number">22</span>　W　　　<span class="number">39</span>　n　　　<span class="number">56</span>　<span class="number">4</span></span><br><span class="line"></span><br><span class="line"><span class="number">6</span>　G　　<span class="number">23</span>　X　　　<span class="number">40</span>　o　　　<span class="number">57</span>　<span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="number">7</span>　H　　<span class="number">24</span>　Y　　　<span class="number">41</span>　p　　　<span class="number">58</span>　<span class="number">6</span></span><br><span class="line"></span><br><span class="line"><span class="number">8</span>　I　　<span class="number">25</span>　Z　　　<span class="number">42</span>　q　　　<span class="number">59</span>　<span class="number">7</span></span><br><span class="line"></span><br><span class="line"><span class="number">9</span>　J　　<span class="number">26</span>　a　　　<span class="number">43</span>　r　　　<span class="number">60</span>　<span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="number">10</span>　K　　<span class="number">27</span>　b　　　<span class="number">44</span>　s　　　<span class="number">61</span>　<span class="number">9</span></span><br><span class="line"></span><br><span class="line"><span class="number">11</span>　L　　<span class="number">28</span>　c　　　<span class="number">45</span>　t　　　<span class="number">62</span>　+</span><br><span class="line"></span><br><span class="line"><span class="number">12</span>　M　　<span class="number">29</span>　d　　　<span class="number">46</span>　u　　　<span class="number">63</span>　/</span><br><span class="line"></span><br><span class="line"><span class="number">13</span>　N　　<span class="number">30</span>　e　　　<span class="number">47</span>　v</span><br><span class="line"></span><br><span class="line"><span class="number">14</span>　O　　<span class="number">31</span>　f　　　<span class="number">48</span>　w　　　</span><br><span class="line"></span><br><span class="line"><span class="number">15</span>　P　　<span class="number">32</span>　g　　　<span class="number">49</span>　x</span><br><span class="line"></span><br><span class="line"><span class="number">16</span>　Q　　<span class="number">33</span>　h　　　<span class="number">50</span>　y</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>从上面的步骤我们发现：</p>
-<ul>
-<li>Base64字符表中的字符原本用6个bit就可以表示，现在前面添加2个0，变为8个bit，会造成一定的浪费。因此，Base64编码之后的文本，要比原文大约三分之一。</li>
-<li>为什么使用3个字节一组呢？因为6和8的最小公倍数为24，三个字节正好24个二进制位，每6个bit位一组，恰好能够分为4组。</li>
-</ul>
+<li>分类<blockquote>
+<p>耦合性分类(低――高): 无直接耦合;数据耦合;标记耦合;控制耦合;公共耦合;内容耦合;</p>
 </blockquote>
-<h5 id="可以参照这个图："><a href="#可以参照这个图：" class="headerlink" title="可以参照这个图："></a>可以参照这个图：</h5><p><img src="https://img-blog.csdnimg.cn/20190517212249969.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9oZWxsby5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70" alt="参照图" title="参照图"></p>
-<ul>
-<li>第一步：“M”、“a”、”n”对应的ASCII码值分别为77，97，110，对应的二进制值是01001101、01100001、01101110。如图第二三行所示，由此组成一个24位的二进制字符串。</li>
-<li>第二步：如图红色框，将24位每6位二进制位一组分成四组。</li>
-<li>第三步：在上面每一组前面补两个0，扩展成32个二进制位，此时变为四个字节：00010011、00010110、00000101、00101110。分别对应的值（Base64编码索引）为：19、22、5、46。</li>
-<li>第四步：用上面的值在Base64编码表中进行查找，分别对应：T、W、F、u。因此“Man”Base64编码之后就变为：TWFu。</li>
-</ul>
-<h4 id="位数不足情况"><a href="#位数不足情况" class="headerlink" title="位数不足情况"></a>位数不足情况</h4><p><img src="https://img-blog.csdnimg.cn/20190517212307382.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9oZWxsby5ibG9nLmNzZG4ubmV0,size_16,color_FFFFFF,t_70" alt="位数不足解析图" title="位数不足解析图"></p>
-<ul>
-<li><p>两个字节：两个字节共16个二进制位，依旧按照规则进行分组。此时总共16个二进制位，每6个一组，则第三组缺少2位，用0补齐，得到三个Base64编码，第四组完全没有数据则用“=”补上。因此，上图中“BC”转换之后为“QKM=”；</p>
 </li>
-<li><p>一个字节：一个字节共8个二进制位，依旧按照规则进行分组。此时共8个二进制位，每6个一组，则第二组缺少4位，用0补齐，得到两个Base64编码，而后面两组没有对应数据，都用“=”补上。因此，上图中“A”转换之后为“QQ==”；</p>
-</li>
-</ul>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
-<li>大多数编码都是由字符串转化成二进制的过程，而Base64的编码则是从二进制转换为字符串。与常规恰恰相反，</li>
-<li>Base64编码主要用在传输、存储、表示二进制领域，不能算得上加密，只是无法直接看到明文。也可以通过打乱Base64编码来进行加密。</li>
-<li>中文有多种编码（比如：utf-8、gb2312、gbk等），不同编码对应Base64编码结果都不一样。</li>
+<li>详解</li>
 </ol>
+<ul>
+<li>无直接耦合:</li>
+<li>数据耦合: 指两个模块之间有调用关系，传递的是简单的数据值，相当于高级语言的值传递;</li>
+<li>标记耦合: 指两个模块之间传递的是数据结构，如高级语言中的数组名、记录名、文件名等这些名字即标记，其实传递的是这个数据结构的地址;</li>
+<li>控制耦合: 指一个模块调用另一个模块时，传递的是控制变量（如开关、标志等），被调模块通过该控制变量的值有选择地执行块内某一功能;</li>
+<li>公共耦合: 指通过一个公共数据环境相互作用的那些模块间的耦合。公共耦合的复杂程序随耦合模块的个数增加而增加。</li>
+<li>内容耦合: 这是最高程度的耦合，也是最差的耦合。当一个模块直接使用另一个模块的内部数据，或通过非正常入口而转入另一个模块内部。</li>
+</ul>
+<h4 id="3、内聚性"><a href="#3、内聚性" class="headerlink" title="3、内聚性"></a>3、内聚性</h4><ol>
+<li>定义<blockquote>
+<p>内聚性又称块内联系。指模块的功能强度的度量，即一个模块内部各个元素彼此结合的紧密程度的度量。若一个模块内各元素（语名之间、程序段之间）联系的越紧密，则它的内聚性就越高。</p>
+</blockquote>
+</li>
+<li>分类<blockquote>
+<p>内聚性分类(低――高): 偶然内聚;逻辑内聚;时间内聚;通信内聚;顺序内聚;功能内聚; </p>
+</blockquote>
+</li>
+<li>详解</li>
+</ol>
+<ul>
+<li>偶然内聚: 指一个模块内的各处理元素之间没有任何联系。</li>
+<li>逻辑内聚: 指模块内执行几个逻辑上相似的功能，通过参数确定该模块完成哪一个功能。</li>
+<li>时间内聚: 把需要同时执行的动作组合在一起形成的模块为时间内聚模块。</li>
+<li>通信内聚: 指模块内所有处理元素都在同一个数据结构上操作（有时称之为信息内聚），或者指各处理使用相同的输入数据或者产生相同的输出数据。</li>
+<li>顺序内聚: 指一个模块中各个处理元素都密切相关于同一功能且必须顺序执行，前一功能元素输出就是下一功能元素的输入。</li>
+<li>功能内聚: 这是最强的内聚，指模块内所有元素共同完成一个功能，缺一不可。与其他模块的耦合是最弱的。<h4 id="4、要求"><a href="#4、要求" class="headerlink" title="4、要求"></a>4、要求</h4></li>
+</ul>
+<blockquote>
+<p>耦合性与内聚性是模块独立性的两个定性标准，将软件系统划分模块时，尽量做到高内聚低耦合，提高模块的独立性，为设计高质量的软件结构奠定基础。</p>
+</blockquote>
+<h4 id="5、示例"><a href="#5、示例" class="headerlink" title="5、示例"></a>5、示例</h4><blockquote>
+<p>  有个例子很容易明白：一个程序有50个函数，这个程序执行得非常好；然而一旦你修改其中一个函数，其他49个函数都需要做修改，这就是高耦合的后果。一旦你理解了它，你编写概要设计的时候设计类或者模块自然会考虑到“高内聚，低耦合”。</p>
+</blockquote>
+<h4 id="6-原文"><a href="#6-原文" class="headerlink" title="6.原文"></a>6.原文</h4><blockquote>
+<p>本问大部分来自于 <a href="http://www.cnblogs.com/robnetcn/archive/2012/04/15/2449008.html" title="co" target="_blank" rel="noopener">robnetcn</a></p>
+</blockquote>
 
       
 
@@ -266,11 +261,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">架构</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">设计</a>
         		</li>
       		
 		</ul>
@@ -326,7 +325,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://lihengc.github.io/2019/06/03/Base64编码认识/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://lihengc.github.io/2019/06/04/理解高内聚低耦合/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -340,18 +339,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/06/04/PHP开发当中的一些优化建议/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          PHP开发当中的一些优化建议
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/05/28/3-6协程深入浅出/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">3.6浅谈携程异步IO</div>
+    <a href="/2019/06/04/PHP开发当中的一些优化建议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">PHP开发当中的一些优化建议</div>
       <i class="icon-circle-right"></i>
     </a>
   
