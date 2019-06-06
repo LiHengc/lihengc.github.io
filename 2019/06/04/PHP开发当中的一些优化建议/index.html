@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="这都是前人的经验我都只是负责抄录和理解并适用">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-04T02:32:45.430Z">
+<meta property="og:updated_time" content="2019-06-06T08:26:13.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP开发当中的一些优化建议">
 <meta name="twitter:description" content="这都是前人的经验我都只是负责抄录和理解并适用">
@@ -182,7 +182,7 @@
         <ol>
 <li><code>echo</code> 比 <code>print</code> 快。 </li>
 <li>尽量避免使用<code>__get</code>，<code>__set</code>，<code>__autoload</code>。</li>
-<li><code>$row[‘id’]</code>的效率是<code>$row[id]</code>的7倍。 </li>
+<li><code>$row[‘id’]</code>的效率是<code>$row[id]</code>的7倍。 <a id="more"></a></li>
 <li>尽量采用大量的PHP内置函数。 </li>
 <li><code>str_replace</code>函数比<code>preg_replace</code>函数快，但<code>strtr</code>函数的效率是<code>str_replace</code>函数的四倍。 </li>
 <li>如果一个方法可静态化，就对它做静态声明。速率可提升至4倍。</li>
