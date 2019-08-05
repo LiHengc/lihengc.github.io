@@ -160,6 +160,255 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-PHP编写守护进程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/05/PHP编写守护进程/">PHP编写守护进程</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/05/PHP编写守护进程/" class="archive-article-date">
+  	<time datetime="2019-08-05T03:41:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>进程根据状态可以分为三种进程，守护进程，僵尸进程，孤儿进程。今天我们着重来分析下守护进程。</p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>  <hr></p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>  守护进程 (daemon) 是一类在后台运行的特殊进程，用于执行特定的系统任务。很多守护进程在系统引导的时候启动，并且一直运行直到系统关闭。另一些只在需要的时候才启动，完成任务后就自动结束。</p>
+<h4 id="创建步骤"><a href="#创建步骤" class="headerlink" title="创建步骤"></a>创建步骤</h4><p>####1. 创建子进程，终止父进程<br>  由于守护进程是脱离控制终端的，因此首先创建子进程，终止父进程，使得程序在 shell 终端里造成一个已经运行完毕的假象。<br>  之后所有的工作都在子进程中完成，而用户在 shell 终端里则可以执行其他的命令，从而使得程序以僵尸进程形式运行，在形式 I 上做到了与控制终端的脱离。<br>####2. 在子进程中创建新会话<br>  这个步骤是创建守护进程中最重要的一步，在这里使用的是系统函数 setsid。<br>  setsid 函数用于创建一个新的会话，并担任该会话组的组长。<br>  调用 setsid 的三个作用：让进程摆脱原会话的控制、让进程摆脱原进程组的控制和让进程摆脱原控制终端的控制。<br>  在调用 fork 函数时，子进程全盘拷贝父进程的会话期 (session，是一个或多个进程组的集合)、进程组、控制终端等，虽然父进程退出了，但原先的会话期、进程组、控制终端等并没有改变，因此，那还不是真正意义上使两者独立开来。<br>  setsid 函数能够使进程完全独立出来，从而脱离所有其他进程的控制。</p>
+</li>
+</ul>
+<p>####3. 改变工作目录<br>    使用fork创建的子进程会继承父进程的当前工作目录。<br>    由于子进程运行的过程中，当前目录所在的文件系统不能被卸载，因此，我们需要把当前工作目录换成其他路径，如<code>/</code>或<code>/tmp</code>等。<br>    改变工作目录的常见函数是chdir。</p>
+<p>####4. 重设文件创建掩码<br>    文件创建掩码是指屏蔽掉文件创建时的对应位。<br>    由于使用 fork 函数新建的子进程继承了父进程的文件创建掩码，这就给该子进程使用文件带来了诸多的麻烦。<br>    因此，把文件创建掩码设置为 0，可以大大增强该守护进程的灵活性。<br>    设置文件创建掩码的函数是 umask，通常的使用方法为 umask (0)。</p>
+<p>####5. 关闭文件描述符<br>    用 fork 新建的子进程会从父进程那里继承一些已经打开了的文件。<br>    这些被打开的文件可能永远不会被守护进程读或写，但它们一样消耗系统资源，可能导致所在的文件系统无法卸载。<br>    在上面的第二步之后，守护进程已经与所属的控制终端失去了联系。<br>    因此从终端输入的字符不可能达到守护进程，守护进程中用常规方法（如printf）输出的字符也不可能在终端上显示出来。<br>    所以，文件描述符为0、1和2 的3个文件（常说的输入、输出和报错）已经失去了存在的价值，也应被关闭。</p>
+<p>##code：</p>
+<pre><code class="php"><span class="meta">&lt;?php</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">Deamon</span></span>
+<span class="class"></span>{
+    <span class="keyword">protected</span> $_pidFile;
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="keyword">$this</span>-&gt;_pidFile = <span class="string">'/var/www/html/queue/public/pid.log'</span>;
+        <span class="keyword">$this</span>-&gt;_checkPcntl();
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 创建守护进程核心函数</span>
+<span class="comment">     * <span class="doctag">@return</span> string|void</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_demonize</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="keyword">if</span> (php_sapi_name() != <span class="string">'cli'</span>) {
+            <span class="keyword">die</span>(<span class="string">'Should run in CLI'</span>);
+        }
+        <span class="comment">//创建子进程</span>
+        $pid = pcntl_fork();
+        <span class="keyword">if</span> ($pid == <span class="number">-1</span>) {
+            <span class="keyword">return</span> <span class="string">'fork faile'</span>;
+        } <span class="keyword">elseif</span> ($pid) {
+            <span class="comment">//终止父进程</span>
+            <span class="keyword">exit</span>(<span class="string">'parent process'</span>);
+        }
+        <span class="comment">//在子进程中创建新的会话</span>
+        <span class="keyword">if</span> (posix_setsid() === <span class="number">-1</span>) {
+            <span class="keyword">die</span>(<span class="string">'Could not detach'</span>);
+        }
+        <span class="comment">//改变工作目录</span>
+        chdir(<span class="string">'/'</span>);
+        <span class="comment">//重设文件创建的掩码</span>
+        umask(<span class="number">0</span>);
+        $fp = fopen(<span class="keyword">$this</span>-&gt;_pidFile, <span class="string">'w'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Can't create pid file"</span>);
+        <span class="comment">//把当前进程的id写入到文件中</span>
+        fwrite($fp, posix_getpid());
+        fclose($fp);
+        <span class="comment">//关闭文件描述符</span>
+        fclose(STDIN);
+        fclose(STDOUT);
+        fclose(STDERR);
+        <span class="comment">//运行守护进程的逻辑</span>
+        <span class="keyword">$this</span>-&gt;job();
+        <span class="keyword">return</span>;
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 守护进程的任务</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">job</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="comment">//TODO 你的守护经常需要执行的任务</span>
+        <span class="keyword">while</span> (<span class="keyword">true</span>) {
+            file_put_contents(<span class="string">'/var/www/html/queue/public/job.log'</span>, <span class="string">'job'</span> . PHP_EOL, FILE_APPEND);
+            sleep(<span class="number">5</span>);
+        }
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 获取守护进程的id</span>
+<span class="comment">     * <span class="doctag">@return</span> int</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_getPid</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="comment">//判断存放守护进程id的文件是否存在</span>
+        <span class="keyword">if</span> (!file_exists(<span class="keyword">$this</span>-&gt;_pidFile)) {
+            <span class="keyword">return</span> <span class="number">0</span>;
+        }
+        $pid = intval(file_get_contents(<span class="keyword">$this</span>-&gt;_pidFile));
+        <span class="keyword">if</span> (posix_kill($pid, SIG_DFL)) {<span class="comment">//判断该进程是否正常运行中</span>
+            <span class="keyword">return</span> $pid;
+        } <span class="keyword">else</span> {
+            unlink(<span class="keyword">$this</span>-&gt;_pidFile);
+            <span class="keyword">return</span> <span class="number">0</span>;
+        }
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 判断pcntl拓展</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_checkPcntl</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        !function_exists(<span class="string">'pcntl_signal'</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">'Error:Need PHP Pcntl extension!'</span>);
+    }
+
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">_message</span><span class="params">($message)</span></span>
+<span class="function">    </span>{
+        printf(<span class="string">"%s  %d %d  %s"</span> . PHP_EOL, date(<span class="string">"Y-m-d H:i:s"</span>), posix_getpid(), posix_getppid(), $message);
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 开启守护进程</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;_getPid() &gt; <span class="number">0</span>) {
+            <span class="keyword">$this</span>-&gt;_message(<span class="string">'Running'</span>);
+        } <span class="keyword">else</span> {
+            <span class="keyword">$this</span>-&gt;_demonize();
+            <span class="keyword">$this</span>-&gt;_message(<span class="string">'Start'</span>);
+        }
+    }
+
+    <span class="comment">/**</span>
+<span class="comment">     * 停止守护进程</span>
+<span class="comment">     */</span>
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">stop</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        $pid = <span class="keyword">$this</span>-&gt;_getPid();
+        <span class="keyword">if</span> ($pid &gt; <span class="number">0</span>) {
+            <span class="comment">//通过向进程id发送终止信号来停止进程</span>
+            posix_kill($pid, SIGTERM);
+            unlink(<span class="keyword">$this</span>-&gt;_pidFile);
+            <span class="keyword">echo</span> <span class="string">'Stoped'</span> . PHP_EOL;
+        } <span class="keyword">else</span> {
+            <span class="keyword">echo</span> <span class="string">"Not Running"</span> . PHP_EOL;
+        }
+    }
+
+    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">status</span><span class="params">()</span></span>
+<span class="function">    </span>{
+        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;_getPid() &gt; <span class="number">0</span>) {
+            <span class="keyword">$this</span>-&gt;_message(<span class="string">'Is Running'</span>);
+        } <span class="keyword">else</span> {
+            <span class="keyword">echo</span> <span class="string">'Not Running'</span> . PHP_EOL;
+        }
+    }
+
+    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span><span class="params">($argv)</span></span>
+<span class="function">    </span>{
+        $param = is_array($argv) &amp;&amp; count($argv) == <span class="number">2</span> ? $argv[<span class="number">1</span>] : <span class="keyword">null</span>;
+        <span class="keyword">switch</span> ($param) {
+            <span class="keyword">case</span> <span class="string">'start'</span>:
+                <span class="keyword">$this</span>-&gt;start();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'stop'</span>:
+                <span class="keyword">$this</span>-&gt;stop();
+                <span class="keyword">break</span>;
+            <span class="keyword">case</span> <span class="string">'status'</span>:
+                <span class="keyword">$this</span>-&gt;status();
+                <span class="keyword">break</span>;
+            <span class="keyword">default</span>:
+                <span class="keyword">echo</span> <span class="string">"Argv start|stop|status "</span> . PHP_EOL;
+                <span class="keyword">break</span>;
+        }
+    }
+
+}
+
+$deamon = <span class="keyword">new</span> \Deamon();
+$deamon-&gt;run($argv);
+</code></pre>
+<h3 id="运行方式"><a href="#运行方式" class="headerlink" title="运行方式"></a>运行方式</h3><ul>
+<li>开启守护进程：php test.php start</li>
+<li>停止守护进程：php test.php stop</li>
+<li>查看守护进程的状态：php test.php status</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">swoole</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/05/PHP编写守护进程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="php-装饰器设计" class="article article-type-php  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -693,11 +942,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
         		</li>
       		
 		</ul>
@@ -708,96 +957,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/06/03/Base64编码认识/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-3-6协程深入浅出" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/28/3-6协程深入浅出/">3.6浅谈携程异步IO</a>
-    </h1>
-  
-
-        
-        <a href="/2019/05/28/3-6协程深入浅出/" class="archive-article-date">
-  	<time datetime="2019-05-28T07:19:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><h6 id="协程，又称微线程，纤程。英文名Coroutine。"><a href="#协程，又称微线程，纤程。英文名Coroutine。" class="headerlink" title="协程，又称微线程，纤程。英文名Coroutine。"></a>协程，又称微线程，纤程。英文名Coroutine。</h6><ol>
-<li>子程序，或者称为函数，在所有语言中都是层级调用，比如A调用B，B在执行过程中又调用了C，C执行完毕返回，B执行完毕返回，最后是A执行完毕。</li>
-<li>所以子程序调用是通过栈实现的，一个线程就是执行一个子程序。
-        
-          <a class="article-more-a" href="/2019/05/28/3-6协程深入浅出/#more">more >></a>
-        
-      
-
-      
-    </li></ol></div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">python3</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">异步IO</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">携程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">asyncio</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/28/3-6协程深入浅出/">展开全文 >></a>
         </p>
       
 
@@ -924,6 +1083,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">python3</a>
               </li>
              
@@ -940,19 +1107,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
+                <a href="javascript:void(0)" class="js-tag color2">swoole</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -964,19 +1127,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">架构</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">设计</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">架构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">设计</a>
               </li>
             
             <div class="clearfix"></div>

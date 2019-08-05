@@ -6,22 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="//lihengc.github.io">
-  <title>Chrome插件开发二 | Harthali</title>
+  <title>Tag: swoole | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="chrome插件开发二popupinjected-scripthomepage_urlbrowserActionpageAction">
-<meta name="keywords" content="Chrome插件,javascript">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Chrome插件开发二">
-<meta property="og:url" content="//lihengc.github.io/2019/06/06/Chrome插件开发二/index.html">
+  <meta name="description" content="一个神秘的博客,就是博主脑子可能有点不对。">
+<meta name="keywords" content="js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,php,python,李恒,算法,爬虫,并发,架构,mysql,数据库">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Harthali">
+<meta property="og:url" content="//lihengc.github.io/tags/swoole/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="chrome插件开发二popupinjected-scripthomepage_urlbrowserActionpageAction">
+<meta property="og:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="//lihengc.github.io/img/popup.png">
-<meta property="og:updated_time" content="2019-06-06T23:25:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chrome插件开发二">
-<meta name="twitter:description" content="chrome插件开发二popupinjected-scripthomepage_urlbrowserActionpageAction">
-<meta name="twitter:image" content="//lihengc.github.io/img/popup.png">
+<meta name="twitter:title" content="Harthali">
+<meta name="twitter:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -161,190 +158,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Chrome插件开发二" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      Chrome插件开发二
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/08/05/PHP编写守护进程/" class="archive-article-date">
+  	<time datetime="2019-08-05T03:41:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-05</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/08/05/PHP编写守护进程/">PHP编写守护进程</a>
     </h1>
   
 
-        
-        <a href="/2019/06/06/Chrome插件开发二/" class="archive-article-date">
-  	<time datetime="2019-06-06T07:26:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-06-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="popup"><a href="#popup" class="headerlink" title="popup"></a>popup</h3><p><code>popup</code>是点击<code>browser_action</code>或者<code>page_action</code>图标时打开的一个小窗口网页，焦点离开网页就立即关闭，一般用来做一些临时性的交互。<br><br><br><img src="/img/popup.png" alt="popup" title="popup"><br><br><br><code>popup</code>可以包含任意你想要的HTML内容，并且会自适应大小。可以通过<code>default_popup</code>字段来指定<code>popup</code>页面，也可以调用<code>setPopup()</code>方法。<br><br><br><a id="more"></a><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"browser_action"</span>:</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="attr">"default_icon"</span>: <span class="string">"img/icon.png"</span>,</span><br><span class="line">        // 图标悬停时的标题，可选</span><br><span class="line">        "default_title": "这是一个示例Chrome插件",</span><br><span class="line">        "default_popup": "popup.html"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">background.js</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCurrentTabid</span>(<span class="params">callback</span>)</span>&#123;</span><br><span class="line">    chrome.tabs.query(&#123;<span class="attr">active</span>: <span class="literal">true</span>, <span class="attr">currentWindow</span>: <span class="literal">true</span>&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">tabs</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(callback) callback(tabs.length ? tabs[<span class="number">0</span>].id: <span class="literal">null</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">$(<span class="string">'#changeBower'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    getCurrentTabid(<span class="function">(<span class="params">tabId</span>) =&gt;</span> &#123;</span><br><span class="line">        chrome.pageAction.setPopup(&#123;<span class="string">"tabId"</span>:tabId,<span class="string">"popup"</span>:<span class="string">'popup2.html'</span>&#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p><strong>需要特别注意的是，由于单击图标打开popup，焦点离开又立即关闭，所以popup页面的生命周期一般很短，需要长时间运行的代码千万不要写在popup里面。</strong><br><br><br><strong>在权限上，它和background非常类似，它们之间最大的不同是生命周期的不同，popup中可以直接通过chrome.extension.getBackgroundPage()获取background的window对象。</strong></p>
-<h3 id="injected-script"><a href="#injected-script" class="headerlink" title="injected-script"></a>injected-script</h3><p><code>injected-script</code>是干嘛用的？</p>
-<p><code>content-script</code>在上面我们就说过，他不能从DOM里面调用js或者任何变量，也就是在DOM当中无法通过绑定事件的方式调用<code>content-script</code>中的代码<br>（包括直接写<code>onclick</code>和<code>addEventListener</code>），如果说非要调用插件的扩展API咋整？</p>
-<p>在<code>content-script</code>中通过DOM方式向页面注入<code>injected-script</code>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向页面注入JS</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">injectCustomJs</span>(<span class="params">jsPath</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    jsPath = jsPath || <span class="string">'js/inject.js'</span>;</span><br><span class="line">    <span class="keyword">var</span> temp = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">    temp.setAttribute(<span class="string">'type'</span>, <span class="string">'text/javascript'</span>);</span><br><span class="line">    <span class="comment">// 获得的地址类似：chrome-extension://ihcokhadfjfchaeagdoclpnjdiokfakg/js/inject.js</span></span><br><span class="line">    temp.src = chrome.extension.getURL(jsPath);</span><br><span class="line">    temp.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// 放在页面不好看，执行完后移除掉</span></span><br><span class="line">        <span class="keyword">this</span>.parentNode.removeChild(<span class="keyword">this</span>);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">document</span>.head.appendChild(temp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>当你注入过后你可能会发现 报错了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Denying load <span class="keyword">of</span> chrome-extension:<span class="comment">//asdasdadasdasdagfdgnfngnfg/js/inject.js. Resources must be listed in the web_accessible_resources manifest key in order to be loaded by pages outside the extension.</span></span><br></pre></td></tr></table></figure></p>
-<p>意思就是你想要在web中直接访问插件中的资源的话必须显示声明才行，配置文件中增加如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的</span><br><span class="line">    "web_accessible_resources": ["js/inject.js"],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>至于inject-script如何调用content-script中的代码，现在的我也不是太清楚，继续学习把。</p>
-<h3 id="homepage-url"><a href="#homepage-url" class="headerlink" title="homepage_url"></a>homepage_url</h3><p>这东西就是一个免费的广告，在popup当中右键第一项点击过后就可以进入你配置的地址</p>
-<p>在扩展中心里面也可以进入，记住这个是推荐配置的就可以了</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"homepage_url"</span>: <span class="string">"https://lihengc.github.io"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Chrome插件</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">swoole</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://lihengc.github.io/2019/06/06/Chrome插件开发二/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/06/24/js复制和js识别各大蜘蛛/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          js复制和js识别各大蜘蛛
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/06/05/Chrome插件开发-一/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Chrome插件开发(一)</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -367,9 +238,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
