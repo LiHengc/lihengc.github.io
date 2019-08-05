@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="PHP 创建守护进程">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-05T04:16:26.000Z">
+<meta property="og:updated_time" content="2019-08-05T04:19:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP编写守护进程">
 <meta name="twitter:description" content="PHP 创建守护进程">
@@ -182,7 +182,8 @@
         <ul>
 <li><p>进程根据状态可以分为三种进程，守护进程，僵尸进程，孤儿进程。今天我们着重来分析下守护进程。</p>
 <h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>  <hr></p>
-<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>  守护进程 (daemon) 是一类在后台运行的特殊进程，用于执行特定的系统任务。很多守护进程在系统引导的时候启动，并且一直运行直到系统关闭。另一些只在需要的时候才启动，完成任务后就自动结束。</p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4>  <a id="more"></a>
+<p>  守护进程 (daemon) 是一类在后台运行的特殊进程，用于执行特定的系统任务。很多守护进程在系统引导的时候启动，并且一直运行直到系统关闭。另一些只在需要的时候才启动，完成任务后就自动结束。</p>
 <h4 id="创建步骤"><a href="#创建步骤" class="headerlink" title="创建步骤"></a>创建步骤</h4><p>####1. 创建子进程，终止父进程<br>  由于守护进程是脱离控制终端的，因此首先创建子进程，终止父进程，使得程序在 shell 终端里造成一个已经运行完毕的假象。<br>  之后所有的工作都在子进程中完成，而用户在 shell 终端里则可以执行其他的命令，从而使得程序以僵尸进程形式运行，在形式 I 上做到了与控制终端的脱离。<br>####2. 在子进程中创建新会话<br>  这个步骤是创建守护进程中最重要的一步，在这里使用的是系统函数 setsid。<br>  setsid 函数用于创建一个新的会话，并担任该会话组的组长。<br>  调用 setsid 的三个作用：让进程摆脱原会话的控制、让进程摆脱原进程组的控制和让进程摆脱原控制终端的控制。<br>  在调用 fork 函数时，子进程全盘拷贝父进程的会话期 (session，是一个或多个进程组的集合)、进程组、控制终端等，虽然父进程退出了，但原先的会话期、进程组、控制终端等并没有改变，因此，那还不是真正意义上使两者独立开来。<br>  setsid 函数能够使进程完全独立出来，从而脱离所有其他进程的控制。</p>
 </li>
 </ul>
