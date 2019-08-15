@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-15T06:16:01.000Z">
+<meta property="og:updated_time" content="2019-08-15T07:32:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="slow log慢日志分析,phpfpm性能分析">
 <meta name="twitter:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
@@ -193,6 +193,9 @@
 <li>每行冒号后面的数字是行号。</li>
 </ol>
 <p>开启后，在错误日志文件中也有相关记录。如下：<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[15-Aug-2019 15:55:37] WARNING: [pool www] child 18575, script &apos;/home/web/htdocs/xxxxlong/test/tt.php&apos; (request: &quot;GET /test/tt.php&quot;) executing too slow (1.006222 sec), logging</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: child 18575 stopped for tracing</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: about to trace 18575</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: finished trace of 18575</span><br></pre></td></tr></table></figure></p>
+<h3 id="Docker-php-fpm-慢查询-failed-to-ptrace-Operation-not-permitted解决方案"><a href="#Docker-php-fpm-慢查询-failed-to-ptrace-Operation-not-permitted解决方案" class="headerlink" title="Docker php-fpm 慢查询 failed to ptrace Operation not permitted解决方案"></a>Docker php-fpm 慢查询 failed to ptrace Operation not permitted解决方案</h3><p>宿主机的服务慢查询是正常的，但是到了Docker中的php-fpm服务，触发慢查询后，会输出类似报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[15-Aug-2019 15:59:17] ERROR: failed to ptrace(ATTACH) child 5118: Operation not permitted (1)</span><br><span class="line">[15-Aug-2019 15:59:17] WARNING: [pool www] child 5118, script &apos;/www/index.php&apos; (request: &quot;GET /index.php&quot;) executing too slow (1.021099 sec), logging</span><br></pre></td></tr></table></figure></p>
+<p>开始没想到的Docker容器权限问题，后来搜了下，在serverfault找到了解决方案：<br>容器启动时，加入参数：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--cap-<span class="keyword">add</span> SYS_PTRACE</span><br></pre></td></tr></table></figure></p>
+<p>解决方案来自：<a href="https://serverfault.com/questions/704007/php-slowlog-causing-ptrace-error-in-docker-container/706982#706982" target="_blank" rel="noopener">https://serverfault.com/questions/704007/php-slowlog-causing-ptrace-error-in-docker-container/706982#706982</a></p>
 <hr>
 <ul>
 <li>系统日志：记录系统相关信息：<a href="http://blog.csdn.net/ty_hf/article/details/55511624" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55511624</a></li>
