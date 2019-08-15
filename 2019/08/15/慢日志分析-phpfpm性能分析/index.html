@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-15T06:02:37.000Z">
+<meta property="og:updated_time" content="2019-08-15T06:16:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="slow log慢日志分析,phpfpm性能分析">
 <meta name="twitter:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
@@ -193,6 +193,15 @@
 <li>每行冒号后面的数字是行号。</li>
 </ol>
 <p>开启后，在错误日志文件中也有相关记录。如下：<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[15-Aug-2019 15:55:37] WARNING: [pool www] child 18575, script &apos;/home/web/htdocs/xxxxlong/test/tt.php&apos; (request: &quot;GET /test/tt.php&quot;) executing too slow (1.006222 sec), logging</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: child 18575 stopped for tracing</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: about to trace 18575</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: finished trace of 18575</span><br></pre></td></tr></table></figure></p>
+<hr>
+<ul>
+<li>系统日志：记录系统相关信息：<a href="http://blog.csdn.net/ty_hf/article/details/55511624" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55511624</a></li>
+<li>apache访问日志与错误日志：<a href="http://blog.csdn.net/ty_hf/article/details/55504719" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55504719</a></li>
+<li>nginx访问日志与错误日志：<a href="http://blog.csdn.net/ty_hf/article/details/55518070" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55518070</a></li>
+<li>php-fpm慢日志：检测执行较慢的PHP脚本：<a href="http://blog.csdn.net/ty_hf/article/details/55504172" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55504172</a></li>
+<li>php错误日志：检测php运行时或用户自记录错误日志：<a href="http://blog.csdn.net/ty_hf/article/details/55505262" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55505262</a></li>
+<li>mysql慢日志：记录mysql服务器中影响性能的SQL：<a href="http://blog.csdn.net/ty_hf/article/details/55504172" target="_blank" rel="noopener">http://blog.csdn.net/ty_hf/article/details/55504172</a></li>
+</ul>
 
       
 
