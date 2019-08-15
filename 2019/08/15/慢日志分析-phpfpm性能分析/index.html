@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-15T03:34:20.000Z">
+<meta property="og:updated_time" content="2019-08-15T06:02:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="slow log慢日志分析,phpfpm性能分析">
 <meta name="twitter:description" content="php-fpm slow log 慢日志分析,phpfpm性能分析">
@@ -181,7 +181,7 @@
       
         <p>我们都知道mysql是有slow query log，根据慢查询日志，我们可以知道那些sql语句有性能问题<br>当然php也是具有慢日志的，如果你使用php-fpm来管理php的话，你可以通过如下选项开启。<br><a id="more"></a></p>
 <h4 id="PHP-5-3-3-之前设置如下："><a href="#PHP-5-3-3-之前设置如下：" class="headerlink" title="PHP 5.3.3 之前设置如下："></a>PHP 5.3.3 之前设置如下：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;value name=&quot;request_slowlog_timeout&quot;&gt;5s&lt;/value&gt;</span><br><span class="line">&lt;value name=&quot;slowlog&quot;&gt;logs/php-fpm-slowlog.log&lt;/value&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="PHP-5-3-3-之后设置以下如下："><a href="#PHP-5-3-3-之后设置以下如下：" class="headerlink" title="PHP 5.3.3 之后设置以下如下："></a>PHP 5.3.3 之后设置以下如下：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request_slowlog_timeout = 5s</span><br><span class="line">slowlog = /usr/local/php/log/php-fpm-slowlog.log</span><br></pre></td></tr></table></figure>
+<h4 id="PHP-5-3-3-之后设置以下如下：php-fpm-conf"><a href="#PHP-5-3-3-之后设置以下如下：php-fpm-conf" class="headerlink" title="PHP 5.3.3 之后设置以下如下：php-fpm.conf"></a>PHP 5.3.3 之后设置以下如下：php-fpm.conf</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request_slowlog_timeout = 5s</span><br><span class="line">slowlog = /usr/local/php/log/php-fpm-slowlog.log</span><br></pre></td></tr></table></figure>
 <p>说明:</p>
 <p>request_slowlog_timeout 是脚本超过多长时间 就可以记录到日志文件</p>
 <p>slowlog 是日志文件的路径</p>
