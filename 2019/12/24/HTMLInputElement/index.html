@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://lihengc.coding.me">
-  <title>Archives: 2019/9 | Harthali</title>
+  <title>HTMLInputElement es call input change Event | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个神秘的博客,就是博主脑子可能有点不对。">
-<meta name="keywords" content="js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,php,python,李恒,算法,爬虫,并发,架构,mysql,数据库">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Harthali">
-<meta property="og:url" content="https://lihengc.coding.me/archives/2019/09/index.html">
+  <meta name="description" content="recat input onchange event,js触发recat input的onchange事件">
+<meta name="keywords" content="JS,ES,recat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTMLInputElement es call input change Event">
+<meta property="og:url" content="https://lihengc.coding.me/2019/12/24/HTMLInputElement/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
+<meta property="og:description" content="recat input onchange event,js触发recat input的onchange事件">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-12-24T03:31:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Harthali">
-<meta name="twitter:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
+<meta name="twitter:title" content="HTMLInputElement es call input change Event">
+<meta name="twitter:description" content="recat input onchange event,js触发recat input的onchange事件">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -158,106 +159,177 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-HTMLInputElement" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/24/H5网页唤醒app-判断app安装/" class="archive-article-date">
-  	<time datetime="2019-09-24T03:50:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/24/H5网页唤醒app-判断app安装/">H5网页唤醒app,判断app安装</a>
+    <h1 class="article-title" itemprop="name">
+      HTMLInputElement es call input change Event
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/12/24/HTMLInputElement/" class="archive-article-date">
+  	<time datetime="2019-12-24T02:53:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-24</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>折腾了一天，是什么事件都去试了一次，最后还是google大法好<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nativeInputValueSetter = <span class="built_in">Object</span>.getOwnPropertyDescriptor(<span class="built_in">window</span>.HTMLInputElement.prototype, <span class="string">"value"</span>).set;</span><br><span class="line">nativeInputValueSetter.call(input, <span class="string">'react 16 value'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ev2 = <span class="keyword">new</span> Event(<span class="string">'input'</span>, &#123; <span class="attr">bubbles</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">input.dispatchEvent(ev2);</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>With react-dom ^15.6.0 you can use simulated flag on the event object for the event to pass through<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ev = <span class="keyword">new</span> Event(<span class="string">'input'</span>, &#123; <span class="attr">bubbles</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">ev.simulated = <span class="literal">true</span>;</span><br><span class="line">element.value = <span class="string">'Something new'</span>;</span><br><span class="line">element.dispatchEvent(ev);</span><br></pre></td></tr></table></figure></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">H5网页唤醒app</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JS</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">intent</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ES</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Scheme</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">recat</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2019/12/24/HTMLInputElement/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/09/09/Mysql主从复制配置/" class="archive-article-date">
-  	<time datetime="2019-09-09T05:48:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/19/Google-Vision-OCR/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Google Vision OCR</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/09/09/Mysql主从复制配置/">Mysql主从复制配置</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -280,8 +352,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

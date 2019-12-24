@@ -186,7 +186,7 @@
 <p><code>callapp-lib</code>库可能有一点问题，我也没有理解透彻，它并不给你提供唤醒成功<code>callback</code>的功能，所以需要我们自己补足。<br>文档：<a href="https://www.npmjs.com/package/callapp-lib" target="_blank" rel="noopener">callapp-lib</a></p>
 <figure class="highlight javascript"><figcaption><span>1.6</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> CallApp <span class="keyword">from</span> <span class="string">'callapp-lib'</span></span><br><span class="line"><span class="keyword">const</span> option = &#123;</span><br><span class="line">    scheme: &#123;</span><br><span class="line">        protocol: <span class="string">'itms-beta'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    outChain: &#123;</span><br><span class="line">        protocol: <span class="string">'itms-beta'</span>,</span><br><span class="line">        path: <span class="string">''</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    appstore: <span class="string">'http://www.apple.com'</span>,</span><br><span class="line">    yingyongbao: <span class="string">'http://www.zhihu.com'</span>,</span><br><span class="line">    fallback: <span class="string">'https://www.baidu.com'</span>,</span><br><span class="line">    timeout: <span class="number">3000</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> lib = <span class="keyword">new</span> CallApp(option);</span><br><span class="line"><span class="keyword">const</span> callButton = <span class="built_in">document</span>.querySelector(<span class="string">'#call-button'</span>);</span><br><span class="line">callButton.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">    vm.is_show = <span class="number">1</span></span><br><span class="line">    <span class="keyword">this</span>.$toast.loading(&#123;</span><br><span class="line">        mask: <span class="literal">true</span>,</span><br><span class="line">        message: <span class="string">'加载中...'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    lib.open(&#123;</span><br><span class="line">        path: <span class="string">'/text'</span>,</span><br><span class="line">        callback: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            vm.is_show = <span class="number">0</span></span><br><span class="line">            self.$toast.fail(<span class="string">'打开TestFlight失败,请先下载支持软件TestFlight'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;,</span><br><span class="line">    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <h2 id="检测网页是否被切到后台运行，并监听该事件"><a href="#检测网页是否被切到后台运行，并监听该事件" class="headerlink" title="检测网页是否被切到后台运行，并监听该事件"></a>检测网页是否被切到后台运行，并监听该事件</h2><p><code>is_show</code> 是为了阻止重复加载<br><figure class="highlight javascript"><figcaption><span>1.6</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> hidden, state, visibilityChange;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.hidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"hidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"visibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"visibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.mozHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"mozHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"mozvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"mozVisibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.msHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"msHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"msvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"msVisibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.webkitHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"webkitHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"webkitvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"webkitVisibilityState"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(visibilityChange, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">  <span class="comment">//这里判断不要重复下载</span></span><br><span class="line">    <span class="keyword">if</span> (vm.is_show == <span class="number">1</span>) &#123;</span><br><span class="line">      vm.is_show = <span class="number">0</span></span><br><span class="line">      alert(<span class="string">'正在下载'</span>);</span><br><span class="line">      location.reload()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
-<p>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/">https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/</a></p>
+<p>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener">https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/</a></p>
 
       
 
@@ -452,31 +452,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Google Vision</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,11 +480,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Google Vision</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ES</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">recat</a>
               </li>
              
               <li class="article-tag-list-item">

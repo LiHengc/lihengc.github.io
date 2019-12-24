@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="js复制和js识别各大蜘蛛">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-06-24T02:28:52.000Z">
+<meta property="og:updated_time" content="2019-12-24T03:31:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="js复制和js识别各大蜘蛛">
 <meta name="twitter:description" content="js复制和js识别各大蜘蛛">
@@ -180,9 +180,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>js实现复制内容到剪贴板，兼容移动端和pc端</p>
+<p>js实现复制内容到剪贴板，兼容移动端和pc端<br><a id="more"></a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">var</span> save = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>)</span>&#123;</span><br><span class="line">　　　　　　e.clipboardData.setData(<span class="string">'text/plain'</span>,str);</span><br><span class="line">　　　　　　e.preventDefault();<span class="comment">//阻止默认行为</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="built_in">document</span>.addEventListener(<span class="string">'copy'</span>,save);</span><br><span class="line">　　　　<span class="built_in">document</span>.execCommand(<span class="string">"copy"</span>);<span class="comment">//使文档处于可编辑状态，否则无效</span></span><br><span class="line">　　&#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//使用jQuery中的方法监听用户的剪切、复制、粘贴的行为：</span></span><br><span class="line">$(<span class="string">"#cut"</span>).on(<span class="string">"cut"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"剪切"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#copy"</span>).on(<span class="string">"copy"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"复制"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#paste"</span>).on(<span class="string">"paste"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"粘贴"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">　　<span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">　　　　<span class="keyword">var</span> save = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>)</span>&#123;</span><br><span class="line">　　　　　　e.clipboardData.setData(<span class="string">'text/plain'</span>,str);</span><br><span class="line">　　　　　　e.preventDefault();<span class="comment">//阻止默认行为</span></span><br><span class="line">　　　　&#125;</span><br><span class="line">　　　　<span class="built_in">document</span>.addEventListener(<span class="string">'copy'</span>,save);</span><br><span class="line">　　　　<span class="built_in">document</span>.execCommand(<span class="string">"copy"</span>);<span class="comment">//使文档处于可编辑状态，否则无效</span></span><br><span class="line">　　&#125;</span><br><span class="line">    </span><br><span class="line"><span class="comment">//使用jQuery中的方法监听用户的剪切、复制、粘贴的行为：</span></span><br><span class="line">$(<span class="string">"#cut"</span>).on(<span class="string">"cut"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"剪切"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#copy"</span>).on(<span class="string">"copy"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"复制"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">$(<span class="string">"#paste"</span>).on(<span class="string">"paste"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   alert(<span class="string">"粘贴"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>这些行为包括使用键盘的ctrl + c操作，或者右击鼠标—&gt;复制等操作。</p>
 <h3 id="Evevt-clipboardData-对象"><a href="#Evevt-clipboardData-对象" class="headerlink" title="Evevt.clipboardData 对象"></a>Evevt.clipboardData 对象</h3><pre><code>clipboardData是JavaScript剪切板对象，该对象提供了3个常用方法：
 </code></pre><ul>
@@ -458,31 +457,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">php</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Google Vision</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -498,11 +485,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">php</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Google Vision</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">JS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">ES</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">recat</a>
               </li>
              
               <li class="article-tag-list-item">
