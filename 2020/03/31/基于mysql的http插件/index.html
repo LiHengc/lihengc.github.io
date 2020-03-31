@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://lihengc.coding.me">
-  <title>Tag: 随笔 | Harthali</title>
+  <title>基于mysql的http插件 | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个神秘的博客,就是博主脑子可能有点不对。">
-<meta name="keywords" content="js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,php,python,李恒,算法,爬虫,并发,架构,mysql,数据库">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Harthali">
-<meta property="og:url" content="https://lihengc.coding.me/tags/随笔/index.html">
+  <meta name="description" content="基于mysql的http插件,MySQL安装mysql-udf-http,Mysql数据改变触发http通知">
+<meta name="keywords" content="mysql,http,tcp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于mysql的http插件">
+<meta property="og:url" content="https://lihengc.coding.me/2020/03/31/基于mysql的http插件/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
+<meta property="og:description" content="基于mysql的http插件,MySQL安装mysql-udf-http,Mysql数据改变触发http通知">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2020-03-31T03:59:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Harthali">
-<meta name="twitter:description" content="一个神秘的博客,就是博主脑子可能有点不对。">
+<meta name="twitter:title" content="基于mysql的http插件">
+<meta name="twitter:description" content="基于mysql的http插件,MySQL安装mysql-udf-http,Mysql数据改变触发http通知">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -173,64 +174,194 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-基于mysql的http插件" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/22/致歉申明之前文章丢失/" class="archive-article-date">
-  	<time datetime="2019-05-22T07:24:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-22</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/22/致歉申明之前文章丢失/">致歉申明之前文章丢失</a>
+    <h1 class="article-title" itemprop="name">
+      基于mysql的http插件
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/03/31/基于mysql的http插件/" class="archive-article-date">
+  	<time datetime="2020-03-31T03:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>####环境</p>
+<ol>
+<li>系统：centos</li>
+<li>宝塔：7.1.1</li>
+<li>mysq：l5.5.62</li>
+</ol>
+<h4 id="适用业务"><a href="#适用业务" class="headerlink" title="适用业务"></a>适用业务</h4><p>某某公司遇到的业务是用户余额变化需要时时变化并且通知到用户，那么所存在到问题是系统里面用户资金操作特别多，不可能在每一个操作上面都去添加业务通知，那么所带来的代码量也比较大，<br>并且也可能改漏遗忘，以及代码耦合特别高。在这个时候找到来mysql-udf-http这个插件，前辈写咱们只管用。（业务类似都可适用）<br><a id="more"></a></p>
+<h4 id="安装以及使用"><a href="#安装以及使用" class="headerlink" title="安装以及使用"></a>安装以及使用</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wget https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mysql-udf-http/mysql-udf-http-1.0.tar.gz</span><br><span class="line">echo "/www/server/mysql/lib" &gt; /etc/ld.so.conf.d/mysql.conf</span><br><span class="line">/sbin/ldconfig</span><br><span class="line">tar zxvf mysql-udf-http-1.0.tar.gz</span><br><span class="line">cd ./mysql-udf-http-1.0/</span><br><span class="line">./configure --prefix=/www/server/mysql --with-mysql=/www/server/mysql/bin/mysql_config</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">ln -s /www/server/mysql/lib/mysql-udf-http.so.0.0.0 /www/server/mysql/lib/plugin/mysql-udf-http.so</span><br><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
+<p>这里需要注意的是把<code>/www/server/mysql</code>数据库的目录替换成自己的目录就好</p>
+<p>最后进入数据库创建函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">create function http_get returns string soname &apos;mysql-udf-http.so&apos;;  </span><br><span class="line">create function http_post returns string soname &apos;mysql-udf-http.so&apos;;  </span><br><span class="line">create function http_put returns string soname &apos;mysql-udf-http.so&apos;;  </span><br><span class="line">create function http_delete returns string soname &apos;mysql-udf-http.so&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>使用该函数通知自己的业务,创建触发器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DROP TRIGGER IF EXISTS `BalanceChange`;</span><br><span class="line">DELIMITER  ;;</span><br><span class="line">CREATE DEFINER=`root`@`127.0.0.1` TRIGGER `BalanceChange` AFTER UPDATE ON `account` FOR EACH ROW </span><br><span class="line">begin</span><br><span class="line">  SET @tt_resu = (SELECT http_post(&apos;http://173.0.2.1/putMessage&apos;,CONCAT(&apos;uid=&apos;,NEW.uid,&apos;&amp;balance=&apos;,NEW.balance,&apos;&amp;site=&apos;,NEW.site_id)));  </span><br><span class="line">end;;</span><br></pre></td></tr></table></figure></p>
+<p>需要注意的仅仅只是参数的格式</p>
+<blockquote>
+<p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.coding.me/2020/03/31/基于mysql的http插件/">lihengc.coding.me</a> </p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你的支持<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/21577159281_.pic.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">mysql</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">申明</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">http</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">tcp</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2020/03/31/基于mysql的http插件/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">thinkphp调用sqlserver储存过程返回多个结果集</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -253,9 +384,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
