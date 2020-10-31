@@ -1,3 +1,4 @@
+https://lihengc.coding.me/2020/10/31/PHP-IOC容器/
 https://lihengc.coding.me/2020/03/31/基于mysql的http插件/
 https://lihengc.coding.me/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/
 https://lihengc.coding.me/2019/12/26/php-imap/
@@ -17,4 +18,3 @@ https://lihengc.coding.me/2019/06/04/PHP开发当中的一些优化建议/
 https://lihengc.coding.me/2019/06/03/Base64编码认识/
 https://lihengc.coding.me/2019/05/28/3-6协程深入浅出/
 https://lihengc.coding.me/2019/05/22/JS获取URL参数/
-https://lihengc.coding.me/2019/05/22/致歉申明之前文章丢失/
