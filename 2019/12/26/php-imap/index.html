@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://lihengc.coding.me">
   <title>php-imap | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="php imap 收信使用,imap扩展安装">
-<meta name="keywords" content="php,imap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="php-imap">
 <meta property="og:url" content="https://lihengc.coding.me/2019/12/26/php-imap/index.html">
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="php imap 收信使用,imap扩展安装">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-12-26T09:38:23.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-12-26T09:15:48.000Z">
+<meta property="article:modified_time" content="2019-12-26T09:38:23.000Z">
+<meta property="article:author" content="李恒">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="imap">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="php-imap">
-<meta name="twitter:description" content="php imap 收信使用,imap扩展安装">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -52,8 +53,8 @@
   })();
   </script>
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -77,7 +78,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
+				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -159,7 +160,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -194,11 +195,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>不多bb，直接切入主题，有什么需要就用什么招！<br><a id="more"></a><br>首先安装扩展，看shell<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cd ~/Downloads</span><br><span class="line"><span class="meta">$</span> wget https://www.php.net/distributions/php-7.2.1.tar.gz</span><br><span class="line"><span class="meta">$</span> gunzip php-7.2.1.tar.gz</span><br><span class="line"><span class="meta">$</span> tar xvf php-7.2.1.tar</span><br><span class="line"><span class="meta">#</span>如果已有了php环境的话，前面步骤直接跳过，</span><br><span class="line"><span class="meta">$</span> cd php-7.2.1/ext/imap</span><br><span class="line"><span class="meta">#</span>mac os phpize报错的话，试试这个shell，实在不行就google</span><br><span class="line"><span class="meta">#</span>sudo ln -s /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/ /usr/include</span><br><span class="line"><span class="meta">$</span> phpize</span><br><span class="line"><span class="meta">#</span>如果使用的是linux的话 yum install -y libc-client-* 或者apt-get</span><br><span class="line"><span class="meta">$</span> brew install openssl</span><br><span class="line"><span class="meta">$</span> brew install imap-uw</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>请确认自己的openssl安装路径，以免发生误会</span><br><span class="line"><span class="meta">$</span> ./configure --with-kerberos --with-imap-ssl=/usr/local/Cellar/openssl/1.0.2r/ --with-imap=/usr/local/Cellar/imap-uw/2007f/</span><br><span class="line"><span class="meta">$</span> make</span><br><span class="line"><span class="meta">#</span>获取扩展路径</span><br><span class="line"><span class="meta">$</span> php -i | grep extension_dir</span><br><span class="line"><span class="meta">#</span>extension_dir =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303 =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303</span><br><span class="line"><span class="meta">#</span>sqlite3.extension_dir =&gt; no value =&gt; no value</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> cp modules/imap.so /usr/lib/php/extensions/no-debug-non-zts-20160303</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>最后在php.ini添加扩展</span><br><span class="line"><span class="meta">#</span> [imap]</span><br><span class="line"><span class="meta">#</span> extension="imap.so"</span><br></pre></td></tr></table></figure></p>
-<p>linux的比较简单，mac os 系统下面略坑，brew 不带imap源码包。</p>
+        <p>不多bb，直接切入主题，有什么需要就用什么招！<br><a id="more"></a><br>首先安装扩展，看shell<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/Downloads</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://www.php.net/distributions/php-7.2.1.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gunzip php-7.2.1.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar xvf php-7.2.1.tar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如果已有了php环境的话，前面步骤直接跳过，</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> php-7.2.1/ext/imap</span></span><br><span class="line"><span class="meta">#</span><span class="bash">mac os phpize报错的话，试试这个shell，实在不行就google</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo ln -s /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/ /usr/include</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> phpize</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如果使用的是linux的话 yum install -y libc-client-* 或者apt-get</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install openssl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install imap-uw</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">请确认自己的openssl安装路径，以免发生误会</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure --with-kerberos --with-imap-ssl=/usr/<span class="built_in">local</span>/Cellar/openssl/1.0.2r/ --with-imap=/usr/<span class="built_in">local</span>/Cellar/imap-uw/2007f/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br><span class="line"><span class="meta">#</span><span class="bash">获取扩展路径</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> php -i | grep extension_dir</span></span><br><span class="line"><span class="meta">#</span><span class="bash">extension_dir =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303 =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sqlite3.extension_dir =&gt; no value =&gt; no value</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp modules/imap.so /usr/lib/php/extensions/no-debug-non-zts-20160303</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">最后在php.ini添加扩展</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [imap]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> extension=<span class="string">"imap.so"</span></span></span><br></pre></td></tr></table></figure><br>linux的比较简单，mac os 系统下面略坑，brew 不带imap源码包。</p>
 <p>linux下面不用这么复杂，编译了过后直接在php.ini配置文件里面添加扩展文件即可。</p>
-<p>##使用imap<br>我使用了一个轮子给大家推荐一下<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require php-imap/php-imap</span><br></pre></td></tr></table></figure></p>
-<p>地址和安装要求自行去看看：<a href="https://github.com/barbushin/php-imap" target="_blank" rel="noopener">https://github.com/barbushin/php-imap</a></p>
+<p>##使用imap<br>我使用了一个轮子给大家推荐一下<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require php-imap&#x2F;php-imap</span><br></pre></td></tr></table></figure><br>地址和安装要求自行去看看：<a href="https://github.com/barbushin/php-imap" target="_blank" rel="noopener">https://github.com/barbushin/php-imap</a></p>
 <h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create PhpImap\Mailbox instance for all further actions</span></span><br><span class="line">$mailbox = <span class="keyword">new</span> PhpImap\Mailbox(</span><br><span class="line">	<span class="string">'&#123;imap.gmail.com:993/imap/ssl&#125;INBOX'</span>, <span class="comment">// IMAP server and mailbox folder</span></span><br><span class="line">	<span class="string">'some@gmail.com'</span>, <span class="comment">// Username for the before configured mailbox</span></span><br><span class="line">	<span class="string">'*********'</span>, <span class="comment">// Password for the before configured username</span></span><br><span class="line">	<span class="keyword">__DIR__</span>, <span class="comment">// Directory, where attachments will be saved (optional)</span></span><br><span class="line">	<span class="string">'UTF-8'</span> <span class="comment">// Server encoding (optional)</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="comment">// Get all emails (messages)</span></span><br><span class="line">	<span class="comment">// PHP.net imap_search criteria: http://php.net/manual/en/function.imap-search.php</span></span><br><span class="line">	$mailsIds = $mailbox-&gt;searchMailbox(<span class="string">'ALL'</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span>(PhpImap\Exceptions\ConnectionException $ex) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"IMAP connection failed: "</span> . $ex;</span><br><span class="line">	<span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// If $mailsIds is empty, no emails could be found</span></span><br><span class="line"><span class="keyword">if</span>(!$mailsIds) &#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">'Mailbox is empty'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Get the first message</span></span><br><span class="line"><span class="comment">// If '__DIR__' was defined in the first line, it will automatically</span></span><br><span class="line"><span class="comment">// save all attachments to the specified directory</span></span><br><span class="line">$mail = $mailbox-&gt;getMail($mailsIds[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Show, if $mail has one or more attachments</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\nMail has attachments? "</span>;</span><br><span class="line"><span class="keyword">if</span>($mail-&gt;hasAttachments()) &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"Yes\n"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"No\n"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print all information of $mail</span></span><br><span class="line">print_r($mail);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Print all attachements of $mail</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"\n\nAttachments:\n"</span>;</span><br><span class="line">print_r($mail-&gt;getAttachments());</span><br></pre></td></tr></table></figure>
 <p>邮件检索命令的话可以自行google</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$mailsIds = $mailbox-&gt;searchMailbox(<span class="string">'UNSEEN'</span>); <span class="comment">//设置读取邮件条件</span></span><br></pre></td></tr></table></figure>
@@ -316,7 +315,7 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/01/06/thinkphp%E8%B0%83%E7%94%A8sqlserver%E5%82%A8%E5%AD%98%E8%BF%87%E7%A8%8B%E8%BF%94%E5%9B%9E%E5%A4%9A%E4%B8%AA%E7%BB%93%E6%9E%9C%E9%9B%86/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -525,6 +524,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">swoole</a>
               </li>
              
@@ -577,7 +580,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         </div>
         <ul class="search-ul">
           <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
-            缺失模块。<br>1、请确保node版本大于6.2<br>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br> npm i hexo-generator-json-content --save<br><br>
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
             3、在根目录_config.yml里添加配置：
 <pre style="font-size: 12px;" q-show="jsonFail">
   jsonContent:

@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><meta name="generator" content="Hexo 3.8.0">
+<head>
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://lihengc.coding.me">
   <title>PHP编写守护进程 | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="PHP 创建守护进程">
-<meta name="keywords" content="PHP,swoole">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP编写守护进程">
-<meta property="og:url" content="https://lihengc.coding.me/2019/08/05/PHP编写守护进程/index.html">
+<meta property="og:url" content="https://lihengc.coding.me/2019/08/05/PHP%E7%BC%96%E5%86%99%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="PHP 创建守护进程">
-<meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-05T04:19:10.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-08-05T03:41:44.000Z">
+<meta property="article:modified_time" content="2019-08-05T04:19:10.000Z">
+<meta property="article:author" content="李恒">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="swoole">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PHP编写守护进程">
-<meta name="twitter:description" content="PHP 创建守护进程">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -52,8 +53,8 @@
   })();
   </script>
 
-</head>
-</html>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -77,7 +78,7 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/随笔/">随笔</a></li>
+				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -159,7 +160,7 @@
 				
 					<li style="width: 50%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -186,7 +187,7 @@
   
 
         
-        <a href="/2019/08/05/PHP编写守护进程/" class="archive-article-date">
+        <a href="/2019/08/05/PHP%E7%BC%96%E5%86%99%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B/" class="archive-article-date">
   	<time datetime="2019-08-05T03:41:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-05</time>
 </a>
         
@@ -196,7 +197,7 @@
       
         <ul>
 <li><p>进程根据状态可以分为三种进程，守护进程，僵尸进程，孤儿进程。今天我们着重来分析下守护进程。</p>
-<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>  <hr></p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>  <hr /></p>
 <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4>  <a id="more"></a>
 <p>  守护进程 (daemon) 是一类在后台运行的特殊进程，用于执行特定的系统任务。很多守护进程在系统引导的时候启动，并且一直运行直到系统关闭。另一些只在需要的时候才启动，完成任务后就自动结束。</p>
 <h4 id="创建步骤"><a href="#创建步骤" class="headerlink" title="创建步骤"></a>创建步骤</h4><p>####1. 创建子进程，终止父进程<br>  由于守护进程是脱离控制终端的，因此首先创建子进程，终止父进程，使得程序在 shell 终端里造成一个已经运行完毕的假象。<br>  之后所有的工作都在子进程中完成，而用户在 shell 终端里则可以执行其他的命令，从而使得程序以僵尸进程形式运行，在形式 I 上做到了与控制终端的脱离。<br>####2. 在子进程中创建新会话<br>  这个步骤是创建守护进程中最重要的一步，在这里使用的是系统函数 setsid。<br>  setsid 函数用于创建一个新的会话，并担任该会话组的组长。<br>  调用 setsid 的三个作用：让进程摆脱原会话的控制、让进程摆脱原进程组的控制和让进程摆脱原控制终端的控制。<br>  在调用 fork 函数时，子进程全盘拷贝父进程的会话期 (session，是一个或多个进程组的集合)、进程组、控制终端等，虽然父进程退出了，但原先的会话期、进程组、控制终端等并没有改变，因此，那还不是真正意义上使两者独立开来。<br>  setsid 函数能够使进程完全独立出来，从而脱离所有其他进程的控制。</p>
@@ -466,7 +467,7 @@ $deamon-&gt;run($argv);
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2019/08/05/PHP编写守护进程/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2019/08/05/PHP%E7%BC%96%E5%86%99%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -480,7 +481,7 @@ $deamon-&gt;run($argv);
   
 <nav id="article-nav">
   
-    <a href="/2019/08/10/php-fpm安装redis/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/10/php-fpm%E5%AE%89%E8%A3%85redis/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -490,7 +491,7 @@ $deamon-&gt;run($argv);
     </a>
   
   
-    <a href="/2019/06/26/装饰器设计/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/26/%E8%A3%85%E9%A5%B0%E5%99%A8%E8%AE%BE%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">php装饰器设计</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -689,6 +690,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">swoole</a>
               </li>
              
@@ -741,7 +746,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
         </div>
         <ul class="search-ul">
           <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
-            缺失模块。<br>1、请确保node版本大于6.2<br>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br> npm i hexo-generator-json-content --save<br><br>
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
             3、在根目录_config.yml里添加配置：
 <pre style="font-size: 12px;" q-show="jsonFail">
   jsonContent:
