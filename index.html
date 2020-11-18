@@ -195,12 +195,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前几天安装的环境运行<code>laravel-admin</code>提交表单的时候莫名奇妙出现页面500，于是排查代码问题，找了几遍都没有问题，于是我想到去看看nginx的错误日志，果然看到了一个错误，输入代理文件大小超过配置<code>proxy_temp_file_write_size</code>的时候，nginx会将文件写到临时目录下面，如果没有权限，就会出现这个错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open() &quot;/var/lib/nginx/tmp/fastcgi/3/00/0000000003&quot; failed (13: Permission denied) while reading upstream</span><br></pre></td></tr></table></figure></p>
-<p>解决方法特别简单，查询到nginx到运行用户,再这是目录到所有者<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[root]#</span> ps -ef | grep nginx</span><br><span class="line">phpuser   1790 21211  0 Nov17 ?        00:00:00 nginx: worker process</span><br><span class="line">phpuser   1791 21211  0 Nov17 ?        00:00:00 nginx: worker process</span><br><span class="line">root     21211     1  0 Nov17 ?        00:00:00 nginx: master process nginx</span><br><span class="line"><span class="meta">[root]#</span> chown -R phpuser:phpuser /var/lib/nginx</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/" target="_blank" rel="noopener">lihengc.github.io</a> </p>
-</blockquote>
-
+        <p>前几天安装的环境运行<code>laravel-admin</code>提交表单的时候莫名奇妙出现页面500，于是排查代码问题，找了几遍都没有问题，于是我想到去看看nginx的错误日志，果然看到了一个错误，输入代理文件大小超过配置<code>proxy_temp_file_write_size</code>的时候，nginx会将文件写到临时目录下面，如果没有权限，就会出现这个错误<br>
+        
+          <a class="article-more-a" href="/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/#more">more >></a>
+        
       
 
       
