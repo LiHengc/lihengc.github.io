@@ -5,14 +5,14 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="dns-prefetch" href="https://lihengc.coding.me">
+  <link rel="dns-prefetch" href="https://lihengc.github.io">
   <title>ERR_INCOMPLETE_CHUNKED_ENCODING | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="open() &quot;/var/lib/nginx/tmp/fastcgi/3/00/0000000003&quot; failed (13: Permission denied) while reading upstream">
-<meta name="keywords" content="Nginx,PHP">
+<meta name="keywords" content="PHP,Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ERR_INCOMPLETE_CHUNKED_ENCODING">
-<meta property="og:url" content="https://lihengc.coding.me/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/index.html">
+<meta property="og:url" content="https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/index.html">
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="open() &quot;/var/lib/nginx/tmp/fastcgi/3/00/0000000003&quot; failed (13: Permission denied) while reading upstream">
 <meta property="og:locale" content="default">
@@ -197,7 +197,7 @@
         <p>前几天安装的环境运行<code>laravel-admin</code>提交表单的时候莫名奇妙出现页面500，于是排查代码问题，找了几遍都没有问题，于是我想到去看看nginx的错误日志，果然看到了一个错误，输入代理文件大小超过配置<code>proxy_temp_file_write_size</code>的时候，nginx会将文件写到临时目录下面，如果没有权限，就会出现这个错误<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open() &quot;/var/lib/nginx/tmp/fastcgi/3/00/0000000003&quot; failed (13: Permission denied) while reading upstream</span><br></pre></td></tr></table></figure></p>
 <p>解决方法特别简单，查询到nginx到运行用户,再这是目录到所有者<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">[root]#</span> ps -ef | grep nginx</span><br><span class="line">phpuser   1790 21211  0 Nov17 ?        00:00:00 nginx: worker process</span><br><span class="line">phpuser   1791 21211  0 Nov17 ?        00:00:00 nginx: worker process</span><br><span class="line">root     21211     1  0 Nov17 ?        00:00:00 nginx: master process nginx</span><br><span class="line"><span class="meta">[root]#</span> chown -R phpuser:phpuser /var/lib/nginx</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/" target="_blank" rel="noopener">lihengc.github.io</a> </p>
+<p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/">lihengc.github.io</a> </p>
 </blockquote>
 
       
@@ -238,11 +238,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
         		</li>
       		
 		</ul>
@@ -298,7 +298,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -456,15 +456,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -476,11 +472,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ES</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,6 +485,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ES</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,15 +552,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
               </li>
             
             <div class="clearfix"></div>

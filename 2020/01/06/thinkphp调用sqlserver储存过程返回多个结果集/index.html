@@ -5,14 +5,14 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="dns-prefetch" href="https://lihengc.coding.me">
+  <link rel="dns-prefetch" href="https://lihengc.github.io">
   <title>thinkphp调用sqlserver储存过程返回多个结果集 | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="thinkphp调用sqlserver储存过程返回多个结果集，thinkphp调用sqlsrv多数据库增删改查">
 <meta name="keywords" content="php,thinkphp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="thinkphp调用sqlserver储存过程返回多个结果集">
-<meta property="og:url" content="https://lihengc.coding.me/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/index.html">
+<meta property="og:url" content="https://lihengc.github.io/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/index.html">
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="thinkphp调用sqlserver储存过程返回多个结果集，thinkphp调用sqlsrv多数据库增删改查">
 <meta property="og:locale" content="default">
@@ -215,7 +215,7 @@
 <p>起初我就是这个问题，并没有采用绑定参数的形式提交，直接写sql，就获取不到结果集，后来我在我的sql提行里面加入了<code>SET NOCOUNT ON;</code>，才能勉强拿到返回，在文章最后我给出了我最开始获取的结果集的方案例子，但是真的拉稀，你们可以看看，不要吐槽。<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Agent</span> <span class="keyword">extends</span> <span class="title">Model</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> $Dbname = <span class="string">'UserDBConn'</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">GetIndirectAgentList</span><span class="params">($agentId,$strAccount,$strSuperior,$iPageIndex,$pagesize)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $conn = <span class="keyword">$this</span>-&gt;Dbconn(<span class="keyword">$this</span>-&gt;Dbname);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            $TotalCount = <span class="number">0</span>;</span><br><span class="line">            $res = $conn::query(<span class="string">'exec [dbo].[Agent_GetAgentList] :agentId,:strAccount,:strSuperior,:iPageIndex,:pagesize,:TotalCount'</span>, [</span><br><span class="line">                <span class="string">'agentId'</span> =&gt; $agentId,</span><br><span class="line">                <span class="string">'strAccount'</span> =&gt; [$strAccount, PDO::PARAM_STR],</span><br><span class="line">                <span class="string">'strSuperior'</span> =&gt; [$strSuperior, PDO::PARAM_STR],</span><br><span class="line">                <span class="string">'iPageIndex'</span> =&gt; [$iPageIndex, PDO::PARAM_INT],</span><br><span class="line">                <span class="string">'pagesize'</span> =&gt; [$pagesize, PDO::PARAM_INT],</span><br><span class="line">                <span class="string">'TotalCount'</span> =&gt; [$TotalCount, PDO::PARAM_INPUT_OUTPUT],</span><br><span class="line">            ]);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (PDOException $e)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h5 id="最初的Agent-php"><a href="#最初的Agent-php" class="headerlink" title="最初的Agent.php"></a>最初的Agent.php</h5><p>很显然 这里并不会获取到@AgentID 以及  @TotalCount；他只会返回Agent_GetAgentList的结果集<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">GetIndirectAgentList</span><span class="params">($agentId,$strAccount,$strSuperior,$iPageIndex,$pagesize)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $conn = <span class="keyword">$this</span>-&gt;Dbconn(<span class="keyword">$this</span>-&gt;Dbname);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">            $res = $conn-&gt;query(<span class="string">'</span></span><br><span class="line"><span class="string">                SET NOCOUNT ON;</span></span><br><span class="line"><span class="string">                declare @AgentID int;</span></span><br><span class="line"><span class="string">                declare @TotalCount int;</span></span><br><span class="line"><span class="string">                exec [dbo].[Agent_GetAgentList] '</span>.$agentId.<span class="string">',\''</span>.$strAccount.<span class="string">'\',\''</span>.$strSuperior.<span class="string">'\','</span>.$iPageIndex.<span class="string">','</span>.$pagesize.<span class="string">',@TotalCount output;</span></span><br><span class="line"><span class="string">                select @AgentID as AgentID,@TotalCount as TotalCount</span></span><br><span class="line"><span class="string">                '</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (PDOException $e)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>见识略薄（也可能是我的理解和使用方式不对），也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.coding.me/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/">lihengc.coding.me</a> </p>
+<p>见识略薄（也可能是我的理解和使用方式不对），也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.coding.me/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/" target="_blank" rel="noopener">lihengc.coding.me</a> </p>
 </blockquote>
 
       
@@ -316,7 +316,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.coding.me/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.github.io/2020/01/06/thinkphp调用sqlserver储存过程返回多个结果集/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -483,15 +483,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,11 +499,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">JS</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">ES</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -520,6 +512,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">JS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">ES</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,15 +579,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
               </li>
             
             <div class="clearfix"></div>
