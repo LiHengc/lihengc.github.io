@@ -1,3 +1,4 @@
+https://lihengc.github.io/2020/12/02/断点调试php代码/
 https://lihengc.github.io/2020/11/18/ERR-INCOMPLETE-CHUNKED-ENCODING/
 https://lihengc.github.io/2020/11/16/Nginx-File-not-Found/
 https://lihengc.github.io/2020/10/31/PHP-IOC容器/
@@ -17,4 +18,3 @@ https://lihengc.github.io/2019/06/06/Chrome插件开发二/
 https://lihengc.github.io/2019/06/05/Chrome插件开发-一/
 https://lihengc.github.io/2019/06/04/理解高内聚低耦合/
 https://lihengc.github.io/2019/06/04/PHP开发当中的一些优化建议/
-https://lihengc.github.io/2019/06/03/Base64编码认识/
