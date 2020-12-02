@@ -16,14 +16,14 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="今天记录一下使用在phpstorm中使用xdebug进行代码的调试，作用嘛就不用多说了，不管你是用于开发或者代码审计无疑都是利器。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://lihengc.github.io/.io//screely-1606881744877.png">
-<meta property="og:image" content="https://lihengc.github.io/.io//screely-1606881737410.png">
-<meta property="og:image" content="https://lihengc.github.io/.io//screely-1606881706317.png">
+<meta property="og:image" content="https://lihengc.github.io/2020/12/02/断点调试php代码/screely-1606881744877.png">
+<meta property="og:image" content="https://lihengc.github.io/2020/12/02/断点调试php代码/screely-1606881737410.png">
+<meta property="og:image" content="https://lihengc.github.io/2020/12/02/断点调试php代码/screely-1606881706317.png">
 <meta property="og:updated_time" content="2020-12-02T06:13:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="phpstorm断点调试php代码+XDEBUG断点">
 <meta name="twitter:description" content="今天记录一下使用在phpstorm中使用xdebug进行代码的调试，作用嘛就不用多说了，不管你是用于开发或者代码审计无疑都是利器。">
-<meta name="twitter:image" content="https://lihengc.github.io/.io//screely-1606881744877.png">
+<meta name="twitter:image" content="https://lihengc.github.io/2020/12/02/断点调试php代码/screely-1606881744877.png">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -204,11 +204,11 @@
 <p>注意：php5.6只能使用2.5及以下版本xdebug。</p>
 <h3 id="php-ini配置解释"><a href="#php-ini配置解释" class="headerlink" title="php.ini配置解释"></a>php.ini配置解释</h3><p>我这里只介绍我用到的配置，本地调试。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">zend_extension = &quot;/Applications/bin/php/ext/xdebug.so&quot;</span><br><span class="line">xdebug.remote_enable=1</span><br><span class="line">xdebug.var_display_max_depth = 512</span><br><span class="line">xdebug.profiler_append = 1</span><br><span class="line">xdebug.profiler_enable_trigger = 1</span><br><span class="line">xdebug.max_nesting_level = 200</span><br><span class="line">xdebug.profiler_output_dir = &quot;/Applications/logs/xdebug&quot;</span><br><span class="line">xdebug.profiler_output_name = &quot;cachegrind.out.%t.%p&quot;</span><br><span class="line">xdebug.remote_autostart = 1 //开启自动调试</span><br><span class="line">xdebug.remote_host = 127.0.0.1</span><br><span class="line">xdebug.remote_port = 9000</span><br></pre></td></tr></table></figure></p>
 <p>关键参数也就那么几个，<code>remote_enable</code>,<code>zend_extension</code>,<code>remote_autostart</code>,<code>remote_host</code>,<code>remote_port</code>,其他参数无所谓，你想开写的话那么自行去了解作用。<br><br><br>记得配置完成过后重启<code>php-fpm</code></p>
-<h3 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h3><p><img src="/.io//screely-1606881744877.png" alt="screely-1606881744877.png"></p>
+<h3 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h3><p><img src="/2020/12/02/断点调试php代码/screely-1606881744877.png" alt="screely-1606881744877.png"></p>
 <p>这里<code>DEBUG PORT</code>和上面<code>php.ini</code>配置的port一样即可</p>
-<p><img src="/.io//screely-1606881737410.png" alt="screely-1606881737410.png"></p>
+<p><img src="/2020/12/02/断点调试php代码/screely-1606881737410.png" alt="screely-1606881737410.png"></p>
 <p>这里<code>IDE KEY</code>和上面<code>php.ini</code>配置的<code>xdebug.idekey</code>一样即可</p>
-<p>然后打开监听<br><img src="/.io//screely-1606881706317.png" alt="screely-1606881706317.png"></p>
+<p>然后打开监听<br><img src="/2020/12/02/断点调试php代码/screely-1606881706317.png" alt="screely-1606881706317.png"></p>
 <blockquote>
 <p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2020/12/02/断点调试php代码/">lihengc.github.io</a> </p>
 </blockquote>
