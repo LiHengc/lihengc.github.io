@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。 1.查看当前的swap容量1234[root@www ~]# free -h              total        used        free      shared  buff/cache   availableMem:">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2021-01-07T02:42:16.000Z">
+<meta property="og:updated_time" content="2021-01-07T02:47:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos扩容Swap分区">
 <meta name="twitter:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。 1.查看当前的swap容量1234[root@www ~]# free -h              total        used        free      shared  buff/cache   availableMem:">
@@ -212,6 +212,9 @@
 <h3 id="4-将刚才转换的Swap分区加入Swap"><a href="#4-将刚才转换的Swap分区加入Swap" class="headerlink" title="4.将刚才转换的Swap分区加入Swap"></a>4.将刚才转换的Swap分区加入Swap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># swapon /swapfile</span></span><br><span class="line">swapon: /swapfile: insecure permissions 0644, 0600 suggested.</span><br></pre></td></tr></table></figure>
 <p><br></p>
 <h3 id="5-查看一下"><a href="#5-查看一下" class="headerlink" title="5. 查看一下"></a>5. 查看一下</h3><figure class="highlight plain"><figcaption><span>~]# swapon -s</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Filename                                Type            Size    Used    Priority</span><br><span class="line">/swap                                   file    266236  0       -1</span><br><span class="line">/swapfile                               file    2047996 0       -2</span><br><span class="line">[root@www ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           1.0G        219M         68M         13M        719M        615M</span><br><span class="line">Swap:          2.2G          0B        2.2G</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>见识略薄，也希望你们在使用的过程中能有所帮助！<br>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2021/01/07/centos扩容Swap分区/">lihengc.github.io</a> </p>
+</blockquote>
 
       
 
@@ -470,14 +473,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
               </li>
              
@@ -486,7 +481,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHP</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -499,6 +498,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
