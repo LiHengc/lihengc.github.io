@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://lihengc.github.io">
   <title>centos扩容Swap分区 | Harthali</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。 1.查看当前的swap容量1234[root@www ~]# free -h              total        used        free      shared  buff/cache   availableMem:">
+  <meta name="description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。">
 <meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="centos扩容Swap分区">
 <meta property="og:url" content="https://lihengc.github.io/2021/01/07/centos扩容Swap分区/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。 1.查看当前的swap容量1234[root@www ~]# free -h              total        used        free      shared  buff/cache   availableMem:">
+<meta property="og:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2021-01-07T02:47:44.000Z">
+<meta property="og:updated_time" content="2021-01-07T02:50:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos扩容Swap分区">
-<meta name="twitter:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。 1.查看当前的swap容量1234[root@www ~]# free -h              total        used        free      shared  buff/cache   availableMem:">
+<meta name="twitter:description" content="Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -194,8 +194,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <a id="more"></a>
-<p>Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。<br><br></p>
+        <p>Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。<br><a id="more"></a><br><br></p>
 <h3 id="1-查看当前的swap容量"><a href="#1-查看当前的swap容量" class="headerlink" title="1.查看当前的swap容量"></a>1.查看当前的swap容量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># free -h</span></span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           1.0G        216M        556M         13M        235M        628M</span><br><span class="line">Swap:          259M          0B        259M</span><br></pre></td></tr></table></figure>
 <p><br></p>
 <h3 id="2-创建一个空文件-大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的"><a href="#2-创建一个空文件-大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的" class="headerlink" title="2.创建一个空文件 大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的"></a>2.创建一个空文件 大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# dd if=/dev/zero of=/swapfile bs=1024 count=2048000</span><br><span class="line"></span><br><span class="line">2048000+0 records in</span><br><span class="line">2048000+0 records out</span><br><span class="line">2097152000 bytes (2.1 GB) copied, 13.6397 s, 154 MB/s</span><br></pre></td></tr></table></figure>
@@ -473,19 +472,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Chrome插件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
