@@ -209,7 +209,7 @@
 </ol>
 <p>开启后，在错误日志文件中也有相关记录。如下：<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[15-Aug-2019 15:55:37] WARNING: [pool www] child 18575, script &apos;/home/web/htdocs/xxxxlong/test/tt.php&apos; (request: &quot;GET /test/tt.php&quot;) executing too slow (1.006222 sec), logging</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: child 18575 stopped for tracing</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: about to trace 18575</span><br><span class="line">[15-Aug-2019 15:55:37] NOTICE: finished trace of 18575</span><br></pre></td></tr></table></figure></p>
 <h3 id="Docker-php-fpm-慢查询-failed-to-ptrace-Operation-not-permitted解决方案"><a href="#Docker-php-fpm-慢查询-failed-to-ptrace-Operation-not-permitted解决方案" class="headerlink" title="Docker php-fpm 慢查询 failed to ptrace Operation not permitted解决方案"></a>Docker php-fpm 慢查询 failed to ptrace Operation not permitted解决方案</h3><p>宿主机的服务慢查询是正常的，但是到了Docker中的php-fpm服务，触发慢查询后，会输出类似报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[15-Aug-2019 15:59:17] ERROR: failed to ptrace(ATTACH) child 5118: Operation not permitted (1)</span><br><span class="line">[15-Aug-2019 15:59:17] WARNING: [pool www] child 5118, script &apos;/www/index.php&apos; (request: &quot;GET /index.php&quot;) executing too slow (1.021099 sec), logging</span><br></pre></td></tr></table></figure></p>
-<p>开始没想到的Docker容器权限问题，后来搜了下，在serverfault找到了解决方案：<br>容器启动时，加入参数：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--cap-<span class="keyword">add</span> SYS_PTRACE</span><br></pre></td></tr></table></figure></p>
+<p>开始没想到的Docker容器权限问题，后来搜了下，在serverfault找到了解决方案：<br>容器启动时，加入参数：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--cap-<span class="keyword">add</span><span class="bash"> SYS_PTRACE</span></span><br></pre></td></tr></table></figure></p>
 <p>解决方案来自：<a href="https://serverfault.com/questions/704007/php-slowlog-causing-ptrace-error-in-docker-container/706982#706982" target="_blank" rel="noopener">https://serverfault.com/questions/704007/php-slowlog-causing-ptrace-error-in-docker-container/706982#706982</a></p>
 <hr>
 <ul>
@@ -392,7 +392,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 李恒
+    		&copy; 2021 李恒
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -491,15 +491,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -511,15 +507,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">intent</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -532,6 +520,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">intent</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,6 +555,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">imap</a>
               </li>
              
@@ -571,11 +583,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -587,19 +599,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
             
             <div class="clearfix"></div>

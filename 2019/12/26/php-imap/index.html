@@ -194,7 +194,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>不多bb，直接切入主题，有什么需要就用什么招！<br><a id="more"></a><br>首先安装扩展，看shell<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cd ~/Downloads</span><br><span class="line"><span class="meta">$</span> wget https://www.php.net/distributions/php-7.2.1.tar.gz</span><br><span class="line"><span class="meta">$</span> gunzip php-7.2.1.tar.gz</span><br><span class="line"><span class="meta">$</span> tar xvf php-7.2.1.tar</span><br><span class="line"><span class="meta">#</span>如果已有了php环境的话，前面步骤直接跳过，</span><br><span class="line"><span class="meta">$</span> cd php-7.2.1/ext/imap</span><br><span class="line"><span class="meta">#</span>mac os phpize报错的话，试试这个shell，实在不行就google</span><br><span class="line"><span class="meta">#</span>sudo ln -s /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/ /usr/include</span><br><span class="line"><span class="meta">$</span> phpize</span><br><span class="line"><span class="meta">#</span>如果使用的是linux的话 yum install -y libc-client-* 或者apt-get</span><br><span class="line"><span class="meta">$</span> brew install openssl</span><br><span class="line"><span class="meta">$</span> brew install imap-uw</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>请确认自己的openssl安装路径，以免发生误会</span><br><span class="line"><span class="meta">$</span> ./configure --with-kerberos --with-imap-ssl=/usr/local/Cellar/openssl/1.0.2r/ --with-imap=/usr/local/Cellar/imap-uw/2007f/</span><br><span class="line"><span class="meta">$</span> make</span><br><span class="line"><span class="meta">#</span>获取扩展路径</span><br><span class="line"><span class="meta">$</span> php -i | grep extension_dir</span><br><span class="line"><span class="meta">#</span>extension_dir =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303 =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303</span><br><span class="line"><span class="meta">#</span>sqlite3.extension_dir =&gt; no value =&gt; no value</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span> cp modules/imap.so /usr/lib/php/extensions/no-debug-non-zts-20160303</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>最后在php.ini添加扩展</span><br><span class="line"><span class="meta">#</span> [imap]</span><br><span class="line"><span class="meta">#</span> extension="imap.so"</span><br></pre></td></tr></table></figure></p>
+        <p>不多bb，直接切入主题，有什么需要就用什么招！<br><a id="more"></a><br>首先安装扩展，看shell<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~/Downloads</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget https://www.php.net/distributions/php-7.2.1.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> gunzip php-7.2.1.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar xvf php-7.2.1.tar</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如果已有了php环境的话，前面步骤直接跳过，</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> php-7.2.1/ext/imap</span></span><br><span class="line"><span class="meta">#</span><span class="bash">mac os phpize报错的话，试试这个shell，实在不行就google</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sudo ln -s /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/ /usr/include</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> phpize</span></span><br><span class="line"><span class="meta">#</span><span class="bash">如果使用的是linux的话 yum install -y libc-client-* 或者apt-get</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install openssl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> brew install imap-uw</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">请确认自己的openssl安装路径，以免发生误会</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./configure --with-kerberos --with-imap-ssl=/usr/<span class="built_in">local</span>/Cellar/openssl/1.0.2r/ --with-imap=/usr/<span class="built_in">local</span>/Cellar/imap-uw/2007f/</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> make</span></span><br><span class="line"><span class="meta">#</span><span class="bash">获取扩展路径</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> php -i | grep extension_dir</span></span><br><span class="line"><span class="meta">#</span><span class="bash">extension_dir =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303 =&gt; /usr/lib/php/extensions/no-debug-non-zts-20160303</span></span><br><span class="line"><span class="meta">#</span><span class="bash">sqlite3.extension_dir =&gt; no value =&gt; no value</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp modules/imap.so /usr/lib/php/extensions/no-debug-non-zts-20160303</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">最后在php.ini添加扩展</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> [imap]</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> extension=<span class="string">"imap.so"</span></span></span><br></pre></td></tr></table></figure></p>
 <p>linux的比较简单，mac os 系统下面略坑，brew 不带imap源码包。</p>
 <p>linux下面不用这么复杂，编译了过后直接在php.ini配置文件里面添加扩展文件即可。</p>
 <p>##使用imap<br>我使用了一个轮子给大家推荐一下<br><figure class="highlight plain"><figcaption><span>log</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer require php-imap/php-imap</span><br></pre></td></tr></table></figure></p>
@@ -375,7 +375,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 李恒
+    		&copy; 2021 李恒
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -474,15 +474,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -494,15 +490,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">intent</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -515,6 +503,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">intent</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -538,6 +538,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">imap</a>
               </li>
              
@@ -554,11 +566,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,19 +582,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
             
             <div class="clearfix"></div>

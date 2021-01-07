@@ -175,6 +175,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-centos扩容Swap分区" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/07/centos扩容Swap分区/">centos扩容Swap分区</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/07/centos扩容Swap分区/" class="archive-article-date">
+  	<time datetime="2021-01-07T02:26:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+<p>Linux中Swap（即：交换分区），类似于Windows的虚拟内存，就是当内存不足的时候，把一部分硬盘空间虚拟成内存使用,从而解决内存容量不足的情况。<br><br></p>
+<h3 id="1-查看当前的swap容量"><a href="#1-查看当前的swap容量" class="headerlink" title="1.查看当前的swap容量"></a>1.查看当前的swap容量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># free -h</span></span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           1.0G        216M        556M         13M        235M        628M</span><br><span class="line">Swap:          259M          0B        259M</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="2-创建一个空文件-大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的"><a href="#2-创建一个空文件-大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的" class="headerlink" title="2.创建一个空文件 大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的"></a>2.创建一个空文件 大小自己定，一般swap大小是内存的两倍，我的内存1G，swap给2G也是可以的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# dd if=/dev/zero of=/swapfile bs=1024 count=2048000</span><br><span class="line"></span><br><span class="line">2048000+0 records in</span><br><span class="line">2048000+0 records out</span><br><span class="line">2097152000 bytes (2.1 GB) copied, 13.6397 s, 154 MB/s</span><br></pre></td></tr></table></figure>
+<h4 id="dd命令"><a href="#dd命令" class="headerlink" title="dd命令"></a>dd命令</h4><p>dd：用指定大小的块拷贝一个文件，并在拷贝的同时进行指定的转换。</p>
+<p>注意：指定数字的地方若以下列字符结尾，则乘以相应的数字：b=512；c=1；k=1024；w=2</p>
+<p>参数注释：</p>
+<pre><code>1. if=文件名：输入文件名，缺省为标准输入。即指定源文件。&lt; if=input file &gt;
+2. of=文件名：输出文件名，缺省为标准输出。即指定目的文件。&lt; of=output file &gt;
+3. count=blocks：仅拷贝blocks个块，块大小等于ibs指定的字节数。
+4. bs=bytes：同时设置读入/输出的块大小为bytes个字节。
+</code></pre><p><br></p>
+<h3 id="3-将创建的文件夹转换为Swap分区"><a href="#3-将创建的文件夹转换为Swap分区" class="headerlink" title="3.将创建的文件夹转换为Swap分区"></a>3.将创建的文件夹转换为Swap分区</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># mkswap /swapfile</span></span><br><span class="line">Setting up swapspace version 1, size = 2047996 KiB</span><br><span class="line">no label, UUID=bd10f3bb-e0c9-4d03-b84b-9c8c47a2a02a</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="4-将刚才转换的Swap分区加入Swap"><a href="#4-将刚才转换的Swap分区加入Swap" class="headerlink" title="4.将刚才转换的Swap分区加入Swap"></a>4.将刚才转换的Swap分区加入Swap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]<span class="comment"># swapon /swapfile</span></span><br><span class="line">swapon: /swapfile: insecure permissions 0644, 0600 suggested.</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="5-查看一下"><a href="#5-查看一下" class="headerlink" title="5. 查看一下"></a>5. 查看一下</h3><figure class="highlight plain"><figcaption><span>~]# swapon -s</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Filename                                Type            Size    Used    Priority</span><br><span class="line">/swap                                   file    266236  0       -1</span><br><span class="line">/swapfile                               file    2047996 0       -2</span><br><span class="line">[root@www ~]# free -h</span><br><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:           1.0G        219M         68M         13M        719M        615M</span><br><span class="line">Swap:          2.2G          0B        2.2G</span><br></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/07/centos扩容Swap分区/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-断点调试php代码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -291,11 +382,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
         		</li>
       		
 		</ul>
@@ -371,11 +462,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">PHP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Nginx</a>
         		</li>
       		
 		</ul>
@@ -742,93 +833,9 @@
 
 
   
-    <article id="post-HTMLInputElement" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/24/HTMLInputElement/">HTMLInputElement es call input change Event</a>
-    </h1>
-  
-
-        
-        <a href="/2019/12/24/HTMLInputElement/" class="archive-article-date">
-  	<time datetime="2019-12-24T02:53:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>折腾了一天，是什么事件都去试了一次，最后还是google大法好<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nativeInputValueSetter = <span class="built_in">Object</span>.getOwnPropertyDescriptor(<span class="built_in">window</span>.HTMLInputElement.prototype, <span class="string">"value"</span>).set;</span><br><span class="line">nativeInputValueSetter.call(input, <span class="string">'react 16 value'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> ev2 = <span class="keyword">new</span> Event(<span class="string">'input'</span>, &#123; <span class="attr">bubbles</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">input.dispatchEvent(ev2);</span><br></pre></td></tr></table></figure></p>
-        
-          <a class="article-more-a" href="/2019/12/24/HTMLInputElement/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">JS</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">ES</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">recat</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/12/24/HTMLInputElement/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -840,7 +847,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 李恒
+    		&copy; 2021 李恒
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -939,15 +946,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">PHP</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -959,15 +962,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">intent</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -980,6 +975,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">OCR</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">H5网页唤醒app</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">intent</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Scheme</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1003,6 +1010,18 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">imap</a>
               </li>
              
@@ -1019,11 +1038,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">docker</a>
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">redis</a>
+                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1035,19 +1054,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
             
             <div class="clearfix"></div>
