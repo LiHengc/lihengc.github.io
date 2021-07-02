@@ -1,3 +1,4 @@
+https://lihengc.github.io/2021/07/02/Laravel-Vue-api数据加密解密/
 https://lihengc.github.io/2021/06/09/SOCKS5一键脚本/
 https://lihengc.github.io/2021/04/28/MACPHP7-4安装SSH2/
 https://lihengc.github.io/2021/01/07/centos扩容Swap分区/
@@ -17,4 +18,3 @@ https://lihengc.github.io/2019/08/10/php-fpm安装redis/
 https://lihengc.github.io/2019/08/05/PHP编写守护进程/
 https://lihengc.github.io/2019/06/26/装饰器设计/
 https://lihengc.github.io/2019/06/24/js复制和js识别各大蜘蛛/
-https://lihengc.github.io/2019/06/06/Chrome插件开发二/
