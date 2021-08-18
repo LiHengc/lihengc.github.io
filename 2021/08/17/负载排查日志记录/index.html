@@ -6,21 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="https://lihengc.github.io">
-  <title>H5网页唤醒app,判断app安装 | Harthali</title>
+  <title>负载排查日志记录 | Harthali</title>
   <meta name="google-site-verification" content="4DGne9ymwfIgYQlcietejhnNOHdQlOkLfd-QWhl4yys">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="H5网页唤醒app,判断app安装,判断app是否安装,Scheme,intent,判断唤醒app是否成功,callapp-lib">
-<meta name="keywords" content="H5网页唤醒app,intent,Scheme">
+  <meta name="description" content="记一次服务器负载排查">
+<meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="H5网页唤醒app,判断app安装">
-<meta property="og:url" content="https://lihengc.github.io/2019/09/24/H5网页唤醒app-判断app安装/index.html">
+<meta property="og:title" content="负载排查日志记录">
+<meta property="og:url" content="https://lihengc.github.io/2021/08/17/负载排查日志记录/index.html">
 <meta property="og:site_name" content="Harthali">
-<meta property="og:description" content="H5网页唤醒app,判断app安装,判断app是否安装,Scheme,intent,判断唤醒app是否成功,callapp-lib">
+<meta property="og:description" content="记一次服务器负载排查">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-01-06T08:17:44.000Z">
+<meta property="og:updated_time" content="2021-08-18T02:34:05.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="H5网页唤醒app,判断app安装">
-<meta name="twitter:description" content="H5网页唤醒app,判断app安装,判断app是否安装,Scheme,intent,判断唤醒app是否成功,callapp-lib">
+<meta name="twitter:title" content="负载排查日志记录">
+<meta name="twitter:description" content="记一次服务器负载排查">
   
     <link rel="alternative" href="/atom.xml" title="Harthali" type="application/atom+xml">
   
@@ -175,34 +175,86 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-H5网页唤醒app-判断app安装" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-负载排查日志记录" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      H5网页唤醒app,判断app安装
+      负载排查日志记录
     </h1>
   
 
         
-        <a href="/2019/09/24/H5网页唤醒app-判断app安装/" class="archive-article-date">
-  	<time datetime="2019-09-24T03:50:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-24</time>
+        <a href="/2021/08/17/负载排查日志记录/" class="archive-article-date">
+  	<time datetime="2021-08-17T09:47:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-08-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>在阅读本文之前你首先应该对js有基本对掌握，并且对Scheme，intent有一定的理解。更多的是代码<br><a id="more"></a></p>
-</blockquote>
-<h2 id="callapp-lib"><a href="#callapp-lib" class="headerlink" title="callapp-lib"></a><a href="https://www.npmjs.com/package/callapp-lib" target="_blank" rel="noopener">callapp-lib</a></h2><p>这里利用了别人的库，可以省略部分代码，<code>callapp-lib</code>可以直接唤醒app，以及唤醒失败的<code>callback</code>，但是你得传入Scheme。</p>
-<p><code>callapp-lib</code>库可能有一点问题，我也没有理解透彻，它并不给你提供唤醒成功<code>callback</code>的功能，所以需要我们自己补足。<br>文档：<a href="https://www.npmjs.com/package/callapp-lib" target="_blank" rel="noopener">callapp-lib</a></p>
-<figure class="highlight javascript"><figcaption><span>1.6</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> CallApp <span class="keyword">from</span> <span class="string">'callapp-lib'</span></span><br><span class="line"><span class="keyword">const</span> option = &#123;</span><br><span class="line">    scheme: &#123;</span><br><span class="line">        protocol: <span class="string">'itms-beta'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    outChain: &#123;</span><br><span class="line">        protocol: <span class="string">'itms-beta'</span>,</span><br><span class="line">        path: <span class="string">''</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    appstore: <span class="string">'http://www.apple.com'</span>,</span><br><span class="line">    yingyongbao: <span class="string">'http://www.zhihu.com'</span>,</span><br><span class="line">    fallback: <span class="string">'https://www.baidu.com'</span>,</span><br><span class="line">    timeout: <span class="number">3000</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> lib = <span class="keyword">new</span> CallApp(option);</span><br><span class="line"><span class="keyword">const</span> callButton = <span class="built_in">document</span>.querySelector(<span class="string">'#call-button'</span>);</span><br><span class="line">callButton.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">    vm.is_show = <span class="number">1</span></span><br><span class="line">    <span class="keyword">this</span>.$toast.loading(&#123;</span><br><span class="line">        mask: <span class="literal">true</span>,</span><br><span class="line">        message: <span class="string">'加载中...'</span></span><br><span class="line">    &#125;);</span><br><span class="line">    lib.open(&#123;</span><br><span class="line">        path: <span class="string">'/text'</span>,</span><br><span class="line">        callback: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            vm.is_show = <span class="number">0</span></span><br><span class="line">            self.$toast.fail(<span class="string">'打开TestFlight失败,请先下载支持软件TestFlight'</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;,</span><br><span class="line">    </span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="检测网页是否被切到后台运行，并监听该事件"><a href="#检测网页是否被切到后台运行，并监听该事件" class="headerlink" title="检测网页是否被切到后台运行，并监听该事件"></a>检测网页是否被切到后台运行，并监听该事件</h2><p><code>is_show</code> 是为了阻止重复加载<br><figure class="highlight javascript"><figcaption><span>1.6</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">var</span> hidden, state, visibilityChange;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.hidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"hidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"visibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"visibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.mozHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"mozHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"mozvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"mozVisibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.msHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"msHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"msvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"msVisibilityState"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">document</span>.webkitHidden !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    hidden = <span class="string">"webkitHidden"</span>;</span><br><span class="line">    visibilityChange = <span class="string">"webkitvisibilitychange"</span>;</span><br><span class="line">    state = <span class="string">"webkitVisibilityState"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">document</span>.addEventListener(visibilityChange, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// eslint-disable-next-line</span></span><br><span class="line">  <span class="comment">//这里判断不要重复下载</span></span><br><span class="line">    <span class="keyword">if</span> (vm.is_show == <span class="number">1</span>) &#123;</span><br><span class="line">      vm.is_show = <span class="number">0</span></span><br><span class="line">      alert(<span class="string">'正在下载'</span>);</span><br><span class="line">      location.reload()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
-<p>原创不易，转载请附上原文出处链接,谢谢<br>原文链接：<a href="https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/">https://lihengc.github.io/2019/09/24/H5%E7%BD%91%E9%A1%B5%E5%94%A4%E9%86%92app-%E5%88%A4%E6%96%ADapp%E5%AE%89%E8%A3%85/</a></p>
+        <p>下班之际，突然出现的问题，出现了mysql many connect，心塞。<br>直接上服务器<br><a id="more"></a></p>
+<h2 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58</span><br><span class="line">Tasks: 544 total,   1 running, 542 sleeping,   0 stopped,   1 zombie</span><br><span class="line">%Cpu(s): 15.2 us,  5.2 sy,  0.0 ni, 79.3 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  3881920 total,   278624 free,  1525840 used,  2077456 buff/cache</span><br><span class="line">KiB Swap:  1049596 total,   3 free,    1049593 used.  1844424 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                                                                                                                                    </span><br><span class="line"> 8758 root      10 -10  174128  52928   5200 S   5.6  1.4 286:24.76 AliYunDun                                                                                                                                                                  </span><br><span class="line">  494 dbus      20   0   28368   4600    440 S   0.7  0.1 406:50.17 dbus-daemon                                                                                                                                                                </span><br><span class="line">10819 root      20   0  159184   3792   1596 S   0.7  0.1   0:00.10 top                                                                                                                                                                        </span><br><span class="line">11790 root      20   0  158168   2784   1580 R   0.7  0.1   0:00.05 top                                                                                                                                                                        </span><br><span class="line">    1 root      20   0  191476   2996   1228 S   0.3  0.1 293:27.53 systemd                                                                                                                                                                    </span><br><span class="line">    9 root      20   0       0      0      0 S   0.3  0.0  54:58.90 rcu_sched                                                                                                                                                                  </span><br><span class="line">  466 root      16  -4   55524    792    336 S   0.3  0.0  22:44.25 auditd                                                                                                                                                                     </span><br><span class="line">  543 root      20   0  342392  26176   1068 S   0.3  0.7  72:56.68 firewalld                                                                                                                                                                  </span><br><span class="line"> 2833 redis     20   0  159516   3376    956 S   0.3  0.1  76:19.86 redis-server                                                                                                                                                               </span><br><span class="line"> 3514 mysql     20   0 1753780 614536      0 S   0.3 15.8 115:27.34 mysqld                                                                                                                                                                     </span><br><span class="line"> 7760 root      10 -10   42152   2636    960 S   0.3  0.1   3:39.75 AliYunDunUpdate                                                                                                                                                            </span><br><span class="line">    2 root      20   0       0      0      0 S   0.0  0.0   0:01.22 kthreadd                                                                                                                                                                   </span><br><span class="line">    3 root      20   0       0      0      0 S   0.0  0.0   4:33.51 ksoftirqd/0                                                                                                                                                                </span><br><span class="line">    5 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H                                                                                                                                                               </span><br><span class="line">    7 root      rt   0       0      0      0 S   0.0  0.0   2:30.64 migration/0                                                                                                                                                                </span><br><span class="line">    8 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcu_bh                                                                                                                                                                     </span><br><span class="line">   10 root      rt   0       0      0      0 S   0.0  0.0   0:10.75 watchdog/0                                                                                                                                                                 </span><br><span class="line">   11 root      rt   0       0      0      0 S   0.0  0.0   0:09.12 watchdog/1                                                                                                                                                                 </span><br><span class="line">   12 root      rt   0       0      0      0 S   0.0  0.0   2:31.28 migration/1                                                                                                                                                                </span><br><span class="line">   13 root      20   0       0      0      0 S   0.0  0.0   4:46.43 ksoftirq</span><br></pre></td></tr></table></figure>
+<p>####第一行：top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58</p>
+<p>依次对应：系统当前时间 up 系统到目前为止i运行的时间， 当前登陆系统的用户数量， load average后面的三个数字分别表示距离现在一分钟，五分钟，十五分钟的负载情况。<br>这行信息与命令uptime显示的信息相同<br>注意：load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。</p>
+<p>####top命令的第二行：</p>
+<p>Tasks: 544 total,   1 running, 542 sleeping,   0 stopped,   1 zombie<br>依次对应：tasks表示任务（进程），544 544，其中处于运行中的有1个，542（挂起），stopped状态即停止的进程数为0，zombie状态即僵尸的进程数为1个。</p>
+<p>####top命令的第三行，cpu状态：</p>
+<p>%Cpu(s): 15.2 us,  5.2 sy,  0.0 ni, 79.3 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st<br>依次对应：<br>us:user 用户空间占用cpu的百分比<br>sy:system 内核空间占用cpu的百分比<br>ni:niced 改变过优先级的进程占用cpu的百分比<br>id:空闲cpu百分比<br>wa:IO wait IO等待占用cpu的百分比<br>hi:Hardware IRQ 硬中断 占用cpu的百分比<br>si:software 软中断 占用cpu的百分比<br>st:被hypervisor偷去的时间</p>
+<p>####top命令第四行，内存状态：</p>
+<p>KiB Mem :  3881920 total,   278624 free,  1525840 used,  2077456 buff/cache<br>依次对应：物理内存总量（3.8G),空闲内存总量（2.7G),使用中的内存总量（1.5G),缓冲内存量<br>第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心 </p>
+<p>####top命令第五行，swap交换分区：</p>
+<p>KiB Swap:  1049596 total,   3 free,    1049593 used.  1844424 avail Mem<br>依次对应：交换区总量（1G），空闲交换区总量（0G),使用的交换区总量（1G），可用交换取总量</p>
+<p>对于内存监控，在top里我们要时刻监控第五行swap交换分区的used，如果这个数值在不断的变化，说明内核在不断进行内存和swap的数据交换，这是真正的内存不够用了。</p>
+<p>####top命令第七行，各进程的监控：</p>
+<p>PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND<br>依次对应： </p>
+<ol>
+<li>PID — 进程id </li>
+<li>USER — 进程所有者 </li>
+<li>PR — 进程优先级 </li>
+<li>NI — nice值。负值表示高优先级，正值表示低优先级 </li>
+<li>VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES </li>
+<li>RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA </li>
+<li>SHR — 共享内存大小，单位kb </li>
+<li>S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程 </li>
+<li>%CPU — 上次更新到现在的CPU时间占用百分比 </li>
+<li>%MEM — 进程使用的物理内存百分比 </li>
+<li>TIME+ — 进程使用的CPU时间总计，单位1/100秒 </li>
+<li>COMMAND — 进程名称（命令名/命令行）</li>
+</ol>
+<p>##二.top交互命令<br>  1.1 ‘h’ 帮助<br>  top命令进入视图后，键入h会显示如下界面，显示交互命令的帮助菜单 </p>
+<p>  1.2 敲ENTER或者 SPACE键: 刷新显示</p>
+<p>  1.3 A’: 切换交替显示模式<br>  top命令视图下，键入‘A‘显示如下：<br>显示4个窗口：Def （默认字段组）<br>Job （任务字段组）<br>Mem （内存字段组）<br>Usr （用户字段组）<br>四组字段共有一个独立的可配置的概括区域和它自己的可配置任务区域。4个窗口中只有一个窗口是当前窗口。当前窗口的名称显示在左上方。（注：只有当前窗口才会接受你键盘交互命令）<br>我们可以用’a’和’w’在4个 窗口间切换。’a’移到后一个窗口，’w’移到前一个窗口。用’g’命令你可以输入一个数字来选择当前窗口。<br>在键入‘A‘后在键入‘a‘的显示如下： </p>
+<p>1.4 ‘B’: 触发粗体显示<br>一些重要信息会以加粗字体显示。这个命令可以切换粗体显示</p>
+<p>1.5 ‘d’ 或‘s’: 设置显示的刷新间隔<br>当键下’d’或’s’时，你将被提示输入一个值（以秒为单位），它会以设置的值作为刷新间隔。如果你这里输入了6.0，top将会每秒刷新<br>1.6 ‘l’、‘t’、‘m’: 切换负载、任务、内存信息的显示</p>
+<p>1.7 ‘f’: 字段管理<br>用于选择你想要显示的字段。用’*’标记的是已选择的。 </p>
+<p>上下光标键在字段内导航，左光标键可以选择字段，回车或右光标键确认。</p>
+<p>按’&lt;’移动已排序的字段到左边，’&gt;’则移动到右边。 </p>
+<p>1.8 ‘R’: 反向排序</p>
+<p>1.9 ‘c’: 触发命令<br>切换是否显示进程启动时的完整路径和程序名。 </p>
+<p>键入‘c’后显示：<br>2.0 ‘i’: 空闲任务<br>切换显示空闲任务 </p>
+<h4 id="top中的load-average值的含义–针对的是cpu"><a href="#top中的load-average值的含义–针对的是cpu" class="headerlink" title="top中的load average值的含义–针对的是cpu"></a>top中的load average值的含义–针对的是cpu</h4><ol>
+<li>单核处理器<br>假设我们的系统是单CPU单内核的，把它比喻成是一条单向马路，把CPU任务比作汽车。当车不多的时候，load &lt;1；当车占满整个马路的时候 load=1；当马路都站满了，而且马路外还堆满了汽车的时候，load&gt;1</li>
+<li>多核处理器<br>我们经常会发现服务器Load &gt; 1但是运行仍然不错，那是因为服务器是多核处理器（Multi-core）。<br>假设我们服务器CPU是2核，那么将意味我们拥有2条马路，我们的Load = 2时，所有马路都跑满车辆。<br>注：查看cpu 核数命令：<br>grep ‘model name’ /proc/cpuinfo | wc -l</li>
+<li>什么样的Load average值要提高警惕<br>0.7 &lt; load &lt; 1: 此时是不错的状态，如果进来更多的汽车，你的马路仍然可以应付。<br>load = 1: 你的马路即将拥堵，而且没有更多的资源额外的任务，赶紧看看发生了什么吧。<br>load &gt; 5: 非常严重拥堵，我们的马路非常繁忙，每辆车都无法很快的运行</li>
+<li>三种Load值，应该看哪个<br>通常我们先看15分钟load，如果load很高，再看1分钟和5分钟负载，查看是否有下降趋势。<br>1分钟负载值 &gt; 1，那么我们不用担心，但是如果15分钟负载都超过1，我们要赶紧看看发生了什么事情。所以我们要根据实际情况查看这三个值</li>
+</ol>
+<h4 id="swap和内存"><a href="#swap和内存" class="headerlink" title="swap和内存"></a>swap和内存</h4><p>swap是什么？<br>Linux系统的Swap分区，即交换区，Swap空间的作用可简单描述为：当系统的物理内存不够用的时候，就需要将物理内存中的一部分空间释放出来，以供当前运行的程序使用。那些被释放的空间可能来自一些很长时间没有什么操作的程序，这些被释放的空间被临时保存到Swap空间中，等到那些程序要运行时，再从Swap中恢复保存的数据到内存中。这样，系统总是在物理内存不够时，才进行Swap交换。其实，Swap的调整对Linux服务器，特别是Web服务器的性能至关重要。通过调整Swap，有时可以越过系统性能瓶颈，节省系统升级费用。</p>
+<p>什么时候使用swap？<br>交换分区并不是等到物理内存用尽了才使用的，是否尽量的使用或不使用swap，在内核空间有一个参数控制。</p>
+<p>内核空间交换区分利用参数查看命令:cat /proc/sys/vm/swappiness<br>参数说明：<br>swappiness=0 的时候表示最大限度使用物理内存，然后才是swap空间；swappiness＝100 的时候表示积极的使用swap分区，并且把内存上的数据及时的搬运到swap空间里面。<br>考虑到以下情况：<br>1）安装系统时难以确定内存的负荷，如何设置交换分区大小。<br>2）系统中物理内存越大，所需交换分区就会越少。</p>
+<p>swap大小设置<br>平时安装系统，swap默认都分内存的2倍，因为现在有硬盘空间都很大，也不在乎那几十G的空间。合理建议：</p>
+<ol>
+<li>内存:&lt;=4g SWAP:4G</li>
+<li>内存:4-16g SWAP:8G</li>
+<li>内存:16-64g SWAP:16G</li>
+<li>内存:64-256g SWAP:32G</li>
+</ol>
+<h4 id="wa：cpu等待磁盘写入完成时间"><a href="#wa：cpu等待磁盘写入完成时间" class="headerlink" title="wa：cpu等待磁盘写入完成时间"></a>wa：cpu等待磁盘写入完成时间</h4><p>如果一台机器看到wa特别高，那么一般说明是磁盘IO出现问题，可以使用iostat等命令继续进行详细分析。<br>iotop的命令可以看到具体是哪个进程占用 IO 高<br>如果要看具体是哪个磁盘 IO 高，则用-iostat</p>
+<h3 id="查看服务器IO状态-iostat"><a href="#查看服务器IO状态-iostat" class="headerlink" title="查看服务器IO状态-iostat"></a>查看服务器IO状态-iostat</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Linux 3.10.0-514.26.2.el7.x86_64 (izj6c13kpist8ckeii2xaaz)      08/18/2021      _x86_64_        (2 CPU)</span><br><span class="line"></span><br><span class="line">avg-cpu:  %user   %nice %system %iowait  %steal   %idle</span><br><span class="line">          12.17    0.00    4.31    1.00    0.00   82.52</span><br><span class="line"></span><br><span class="line">Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn</span><br><span class="line">vda              39.66       131.92       218.71  521475377  864535016</span><br></pre></td></tr></table></figure>
+<h4 id="cpu属性值说明"><a href="#cpu属性值说明" class="headerlink" title="cpu属性值说明"></a>cpu属性值说明</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%user：CPU处在用户模式下的时间百分比。</span><br><span class="line"></span><br><span class="line">%nice：CPU处在带NICE值的用户模式下的时间百分比。</span><br><span class="line"></span><br><span class="line">%system：CPU处在系统模式下的时间百分比。</span><br><span class="line"></span><br><span class="line">%iowait：CPU等待输入输出完成时间的百分比。</span><br><span class="line"></span><br><span class="line">%steal：管理程序维护另一个虚拟处理器时，虚拟CPU的无意识等待时间百分比。</span><br><span class="line"></span><br><span class="line">%idle：CPU空闲时间百分比。</span><br></pre></td></tr></table></figure>
+<h4 id="备注"><a href="#备注" class="headerlink" title="备注:"></a>备注:</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">如果%iowait的值过高，表示硬盘存在I/O瓶颈</span><br><span class="line"></span><br><span class="line">如果%idle值高，表示CPU较空闲</span><br><span class="line"></span><br><span class="line">如果%idle值高但系统响应慢时，可能是CPU等待分配内存，应加大内存容量。</span><br><span class="line"></span><br><span class="line">如果%idle值持续低于10，表明CPU处理能力相对较低，系统中最需要解决的资源是CPU。</span><br></pre></td></tr></table></figure>
 
       
 
@@ -247,15 +299,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">H5网页唤醒app</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">intent</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Scheme</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">linux</a>
         		</li>
       		
 		</ul>
@@ -311,7 +355,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.github.io/2019/09/24/H5网页唤醒app-判断app安装/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=https://lihengc.github.io/2021/08/17/负载排查日志记录/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -325,18 +369,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/12/19/Google-Vision-OCR/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Google Vision OCR
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/09/09/Mysql主从复制配置/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Mysql主从复制配置</div>
+    <a href="/2021/07/02/Laravel-Vue-api数据加密解密/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Laravel-Vue-api数据加密解密</div>
       <i class="icon-circle-right"></i>
     </a>
   
