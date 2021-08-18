@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="Harthali">
 <meta property="og:description" content="记一次服务器负载排查">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2021-08-18T02:34:05.000Z">
+<meta property="og:updated_time" content="2021-08-18T02:35:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="负载排查日志记录">
 <meta name="twitter:description" content="记一次服务器负载排查">
@@ -197,19 +197,13 @@
       
         <p>下班之际，突然出现的问题，出现了mysql many connect，心塞。<br>直接上服务器<br><a id="more"></a></p>
 <h2 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58</span><br><span class="line">Tasks: 544 total,   1 running, 542 sleeping,   0 stopped,   1 zombie</span><br><span class="line">%Cpu(s): 15.2 us,  5.2 sy,  0.0 ni, 79.3 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  3881920 total,   278624 free,  1525840 used,  2077456 buff/cache</span><br><span class="line">KiB Swap:  1049596 total,   3 free,    1049593 used.  1844424 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                                                                                                                                    </span><br><span class="line"> 8758 root      10 -10  174128  52928   5200 S   5.6  1.4 286:24.76 AliYunDun                                                                                                                                                                  </span><br><span class="line">  494 dbus      20   0   28368   4600    440 S   0.7  0.1 406:50.17 dbus-daemon                                                                                                                                                                </span><br><span class="line">10819 root      20   0  159184   3792   1596 S   0.7  0.1   0:00.10 top                                                                                                                                                                        </span><br><span class="line">11790 root      20   0  158168   2784   1580 R   0.7  0.1   0:00.05 top                                                                                                                                                                        </span><br><span class="line">    1 root      20   0  191476   2996   1228 S   0.3  0.1 293:27.53 systemd                                                                                                                                                                    </span><br><span class="line">    9 root      20   0       0      0      0 S   0.3  0.0  54:58.90 rcu_sched                                                                                                                                                                  </span><br><span class="line">  466 root      16  -4   55524    792    336 S   0.3  0.0  22:44.25 auditd                                                                                                                                                                     </span><br><span class="line">  543 root      20   0  342392  26176   1068 S   0.3  0.7  72:56.68 firewalld                                                                                                                                                                  </span><br><span class="line"> 2833 redis     20   0  159516   3376    956 S   0.3  0.1  76:19.86 redis-server                                                                                                                                                               </span><br><span class="line"> 3514 mysql     20   0 1753780 614536      0 S   0.3 15.8 115:27.34 mysqld                                                                                                                                                                     </span><br><span class="line"> 7760 root      10 -10   42152   2636    960 S   0.3  0.1   3:39.75 AliYunDunUpdate                                                                                                                                                            </span><br><span class="line">    2 root      20   0       0      0      0 S   0.0  0.0   0:01.22 kthreadd                                                                                                                                                                   </span><br><span class="line">    3 root      20   0       0      0      0 S   0.0  0.0   4:33.51 ksoftirqd/0                                                                                                                                                                </span><br><span class="line">    5 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H                                                                                                                                                               </span><br><span class="line">    7 root      rt   0       0      0      0 S   0.0  0.0   2:30.64 migration/0                                                                                                                                                                </span><br><span class="line">    8 root      20   0       0      0      0 S   0.0  0.0   0:00.00 rcu_bh                                                                                                                                                                     </span><br><span class="line">   10 root      rt   0       0      0      0 S   0.0  0.0   0:10.75 watchdog/0                                                                                                                                                                 </span><br><span class="line">   11 root      rt   0       0      0      0 S   0.0  0.0   0:09.12 watchdog/1                                                                                                                                                                 </span><br><span class="line">   12 root      rt   0       0      0      0 S   0.0  0.0   2:31.28 migration/1                                                                                                                                                                </span><br><span class="line">   13 root      20   0       0      0      0 S   0.0  0.0   4:46.43 ksoftirq</span><br></pre></td></tr></table></figure>
-<p>####第一行：top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58</p>
-<p>依次对应：系统当前时间 up 系统到目前为止i运行的时间， 当前登陆系统的用户数量， load average后面的三个数字分别表示距离现在一分钟，五分钟，十五分钟的负载情况。<br>这行信息与命令uptime显示的信息相同<br>注意：load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。</p>
-<p>####top命令的第二行：</p>
-<p>Tasks: 544 total,   1 running, 542 sleeping,   0 stopped,   1 zombie<br>依次对应：tasks表示任务（进程），544 544，其中处于运行中的有1个，542（挂起），stopped状态即停止的进程数为0，zombie状态即僵尸的进程数为1个。</p>
-<p>####top命令的第三行，cpu状态：</p>
-<p>%Cpu(s): 15.2 us,  5.2 sy,  0.0 ni, 79.3 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st<br>依次对应：<br>us:user 用户空间占用cpu的百分比<br>sy:system 内核空间占用cpu的百分比<br>ni:niced 改变过优先级的进程占用cpu的百分比<br>id:空闲cpu百分比<br>wa:IO wait IO等待占用cpu的百分比<br>hi:Hardware IRQ 硬中断 占用cpu的百分比<br>si:software 软中断 占用cpu的百分比<br>st:被hypervisor偷去的时间</p>
-<p>####top命令第四行，内存状态：</p>
-<p>KiB Mem :  3881920 total,   278624 free,  1525840 used,  2077456 buff/cache<br>依次对应：物理内存总量（3.8G),空闲内存总量（2.7G),使用中的内存总量（1.5G),缓冲内存量<br>第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心 </p>
-<p>####top命令第五行，swap交换分区：</p>
-<p>KiB Swap:  1049596 total,   3 free,    1049593 used.  1844424 avail Mem<br>依次对应：交换区总量（1G），空闲交换区总量（0G),使用的交换区总量（1G），可用交换取总量</p>
+<h4 id="第一行：top-10-11-18-up-45-days-17-38-2-users-load-average-12-14-8-20-4-58"><a href="#第一行：top-10-11-18-up-45-days-17-38-2-users-load-average-12-14-8-20-4-58" class="headerlink" title="第一行：top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58"></a>第一行：top - 10:11:18 up 45 days, 17:38,  2 users,  load average: 12.14, 8.20, 4.58</h4><p>依次对应：系统当前时间 up 系统到目前为止i运行的时间， 当前登陆系统的用户数量， load average后面的三个数字分别表示距离现在一分钟，五分钟，十五分钟的负载情况。<br>这行信息与命令uptime显示的信息相同<br>注意：load average数据是每隔5秒钟检查一次活跃的进程数，然后按特定算法计算出的数值。如果这个数除以逻辑CPU的数量，结果高于5的时候就表明系统在超负荷运转了。</p>
+<h4 id="top命令的第二行："><a href="#top命令的第二行：" class="headerlink" title="top命令的第二行："></a>top命令的第二行：</h4><p>Tasks: 544 total,   1 running, 542 sleeping,   0 stopped,   1 zombie<br>依次对应：tasks表示任务（进程），544 544，其中处于运行中的有1个，542（挂起），stopped状态即停止的进程数为0，zombie状态即僵尸的进程数为1个。</p>
+<h4 id="top命令的第三行，cpu状态："><a href="#top命令的第三行，cpu状态：" class="headerlink" title="top命令的第三行，cpu状态："></a>top命令的第三行，cpu状态：</h4><p>%Cpu(s): 15.2 us,  5.2 sy,  0.0 ni, 79.3 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st<br>依次对应：<br>us:user 用户空间占用cpu的百分比<br>sy:system 内核空间占用cpu的百分比<br>ni:niced 改变过优先级的进程占用cpu的百分比<br>id:空闲cpu百分比<br>wa:IO wait IO等待占用cpu的百分比<br>hi:Hardware IRQ 硬中断 占用cpu的百分比<br>si:software 软中断 占用cpu的百分比<br>st:被hypervisor偷去的时间</p>
+<h4 id="top命令第四行，内存状态："><a href="#top命令第四行，内存状态：" class="headerlink" title="top命令第四行，内存状态："></a>top命令第四行，内存状态：</h4><p>KiB Mem :  3881920 total,   278624 free,  1525840 used,  2077456 buff/cache<br>依次对应：物理内存总量（3.8G),空闲内存总量（2.7G),使用中的内存总量（1.5G),缓冲内存量<br>第四行中使用中的内存总量（used）指的是现在系统内核控制的内存数，空闲内存总量（free）是内核还未纳入其管控范围的数量。纳入内核管理的内存不见得都在使用中，还包括过去使用过的现在可以被重复利用的内存，内核并不把这些可被重新使用的内存交还到free中去，因此在linux上free内存会越来越少，但不用为此担心 </p>
+<h4 id="top命令第五行，swap交换分区："><a href="#top命令第五行，swap交换分区：" class="headerlink" title="top命令第五行，swap交换分区："></a>top命令第五行，swap交换分区：</h4><p>KiB Swap:  1049596 total,   3 free,    1049593 used.  1844424 avail Mem<br>依次对应：交换区总量（1G），空闲交换区总量（0G),使用的交换区总量（1G），可用交换取总量</p>
 <p>对于内存监控，在top里我们要时刻监控第五行swap交换分区的used，如果这个数值在不断的变化，说明内核在不断进行内存和swap的数据交换，这是真正的内存不够用了。</p>
-<p>####top命令第七行，各进程的监控：</p>
-<p>PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND<br>依次对应： </p>
+<h4 id="top命令第七行，各进程的监控："><a href="#top命令第七行，各进程的监控：" class="headerlink" title="top命令第七行，各进程的监控："></a>top命令第七行，各进程的监控：</h4><p>PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND<br>依次对应： </p>
 <ol>
 <li>PID — 进程id </li>
 <li>USER — 进程所有者 </li>
@@ -224,7 +218,7 @@
 <li>TIME+ — 进程使用的CPU时间总计，单位1/100秒 </li>
 <li>COMMAND — 进程名称（命令名/命令行）</li>
 </ol>
-<p>##二.top交互命令<br>  1.1 ‘h’ 帮助<br>  top命令进入视图后，键入h会显示如下界面，显示交互命令的帮助菜单 </p>
+<h2 id="二-top交互命令"><a href="#二-top交互命令" class="headerlink" title="二.top交互命令"></a>二.top交互命令</h2><p>  1.1 ‘h’ 帮助<br>  top命令进入视图后，键入h会显示如下界面，显示交互命令的帮助菜单 </p>
 <p>  1.2 敲ENTER或者 SPACE键: 刷新显示</p>
 <p>  1.3 A’: 切换交替显示模式<br>  top命令视图下，键入‘A‘显示如下：<br>显示4个窗口：Def （默认字段组）<br>Job （任务字段组）<br>Mem （内存字段组）<br>Usr （用户字段组）<br>四组字段共有一个独立的可配置的概括区域和它自己的可配置任务区域。4个窗口中只有一个窗口是当前窗口。当前窗口的名称显示在左上方。（注：只有当前窗口才会接受你键盘交互命令）<br>我们可以用’a’和’w’在4个 窗口间切换。’a’移到后一个窗口，’w’移到前一个窗口。用’g’命令你可以输入一个数字来选择当前窗口。<br>在键入‘A‘后在键入‘a‘的显示如下： </p>
 <p>1.4 ‘B’: 触发粗体显示<br>一些重要信息会以加粗字体显示。这个命令可以切换粗体显示</p>
@@ -521,7 +515,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -529,7 +523,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编码</a>
+                <a href="javascript:void(0)" class="js-tag color1">Nginx</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -565,10 +559,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">SSH2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">recat</a>
               </li>
              
@@ -581,7 +571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">SSH2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">mysql</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">swoole</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -597,10 +595,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">swoole</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">docker</a>
               </li>
              
@@ -613,15 +607,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">thinkphp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -633,6 +619,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">php-fpm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">PHPSTORM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">架构</a>
               </li>
              
@@ -641,15 +635,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">申明</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
               </li>
             
             <div class="clearfix"></div>
